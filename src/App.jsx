@@ -1,11 +1,11 @@
 import './App.css'
-import RoutesApp from './RoutesApp'
+import RoutesAppAdmin from './RoutesAppAdmin'
 
 function App() {
 
   return (
     <>
-      <RoutesApp />
+      <RoutesAppAdmin />
     </>
   )
 }
