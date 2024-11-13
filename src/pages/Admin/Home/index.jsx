@@ -11,7 +11,7 @@ export default function Home () {
   return(
     <LayoutAdmin>
       
-      <ComplexNavbar/>
+      
         <div className="flex flex-col justify-center items-center">
           
           <div className="p-3 font-bold ">
