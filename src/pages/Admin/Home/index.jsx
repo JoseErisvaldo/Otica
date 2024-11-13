@@ -10,8 +10,6 @@ import PieChart from "../../../components/layouts/admin/dashboard/pieChart";
 export default function Home () {
   return(
     <LayoutAdmin>
-      
-      
         <div className="flex flex-col justify-center items-center">
           
           <div className="p-3 font-bold ">
