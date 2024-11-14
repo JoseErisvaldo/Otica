@@ -1,6 +1,5 @@
 import { Button, Card } from "@material-tailwind/react";
 import { Appointments } from "../../../components/layouts/admin/appointments";
-import { ComplexNavbar } from "../../../components/layouts/admin/header";
 import LayoutAdmin from "../../../layouts/Admin";
 import { NewSchedule } from "../../../components/layouts/admin/newSchedule";
 import { ListAppointment } from "../../../components/layouts/admin/listAppointment";

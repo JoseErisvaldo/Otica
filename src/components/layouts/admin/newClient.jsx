@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Input,
   Option,
@@ -12,16 +12,64 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
- 
+import supabaseRequest from "../../../services/api/supabaseRequest";
+
 export function NewClient() {
-  const [open, setOpen] = React.useState(false);
- 
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    whatsapp: "",
+    genero: "",
+  });
+
   const handleOpen = () => setOpen(!open);
- 
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelect = (value) => {
+    setFormData((prev) => ({ ...prev, genero: value }));
+  };
+
+  const handleSubmit = async () => {
+    const { name, whatsapp, genero } = formData;
+
+    // Validação básica
+    if (!name || !whatsapp || !genero) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    try {
+
+      await supabaseRequest({
+        table: "users",
+        method: "POST",
+        data: { name, whatsapp, genero },
+      });
+
+      alert("Cliente cadastrado com sucesso!");
+      setFormData({ name: "", whatsapp: "", genero: "" });
+      handleOpen();
+    } catch (error) {
+      console.error("Erro ao cadastrar cliente:", error);
+      alert("Erro ao cadastrar cliente. Tente novamente.");
+    }
+  };
+
   return (
     <div className="">
       <Button onClick={handleOpen} variant="gradient">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
       </Button>
@@ -56,6 +104,8 @@ export function NewClient() {
               size="lg"
               placeholder="Nome"
               name="name"
+              value={formData.name}
+              onChange={handleChange}
               className="placeholder:opacity-100 focus:!border-t-gray-900"
               containerProps={{
                 className: "!min-w-full",
@@ -78,6 +128,8 @@ export function NewClient() {
               size="lg"
               placeholder="Whatsapp"
               name="whatsapp"
+              value={formData.whatsapp}
+              onChange={handleChange}
               className="placeholder:opacity-100 focus:!border-t-gray-900"
               containerProps={{
                 className: "!min-w-full",
@@ -88,15 +140,17 @@ export function NewClient() {
             />
           </div>
           <div>
-            <label>Genêro</label>       
-            <Select>
+            <Typography variant="small" color="blue-gray" className="mb-2">
+              Gênero
+            </Typography>
+            <Select value={formData.genero} onChange={handleSelect}>
               <Option value="Masculino">Masculino</Option>
               <Option value="Feminino">Feminino</Option>
             </Select>
           </div>
         </DialogBody>
         <DialogFooter>
-          <Button className="ml-auto" onClick={handleOpen}>
+          <Button className="ml-auto" onClick={handleSubmit}>
             Cadastrar
           </Button>
         </DialogFooter>
