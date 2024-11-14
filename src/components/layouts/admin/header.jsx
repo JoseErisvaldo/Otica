@@ -113,9 +113,9 @@ const navListItems = [
     link: '/admin/home'
   },
   {
-    label: "Categoria de cortes",
+    label: "Categoria",
     icon: UserCircleIcon,
-    link: '/admin/categoriacorte'
+    link: '/admin/categoria'
   },
   {
     label: "Clientes",
