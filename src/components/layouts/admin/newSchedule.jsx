@@ -94,7 +94,7 @@ export function NewSchedule() {
               color="blue-gray"
               className="mb-2 text-left font-medium"
             >
-              Tipo de corte
+              Médico
             </Typography>
             <Select
               className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
@@ -103,9 +103,54 @@ export function NewSchedule() {
                 className: "hidden",
               }}
             >
-              <Option>Corte simples</Option>
-              <Option>Maquininha</Option>
-              <Option>Barba</Option>
+              <Option>José</Option>
+              <Option>Gael</Option>
+            </Select>
+          </div>
+          <div>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="mb-2 text-left font-medium"
+            >
+              Data
+            </Typography>
+            <Input
+              type="date"
+              color="gray"
+              size="lg"
+              placeholder="whatsapp"
+              name="whatsapp"
+              className="placeholder:opacity-100 focus:!border-t-gray-900"
+              containerProps={{
+                className: "!min-w-full",
+              }}
+              labelProps={{
+                className: "hidden",
+              }}
+            />
+          </div>
+          <div>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="mb-2 text-left font-medium"
+            >
+              Hora
+            </Typography>
+            <Select
+              className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
+              placeholder="1"
+              labelProps={{
+                className: "hidden",
+              }}
+            >
+              <Option>09:00</Option>
+              <Option>09:30</Option>
+              <Option>10:00</Option>
+              <Option>10:30</Option>
+              <Option>11:00</Option>
+              <Option>11:30</Option>
             </Select>
           </div>
         </DialogBody>
