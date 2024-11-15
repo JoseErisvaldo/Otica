@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, Typography } from "@material-tailwind/react";
+import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../services/api/supabaseRequest";
+import { EyeIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 export function ViewClient() {
   const [customers, setCustomers] = useState([]);
@@ -23,7 +25,7 @@ export function ViewClient() {
   };
 
   useEffect(() => {
-    fetchCustomers(1); // Busca a primeira página
+    fetchCustomers(1);
   }, []);
 
   return (
@@ -51,7 +53,16 @@ export function ViewClient() {
                   <Typography color="blue-gray">{genero}</Typography>
                 </div>
                 <Typography color="blue-gray" variant="h6">
-                  Editar
+                  <div className=" flex gap-3">
+                    <Link to={`/admin/detalhescliente/${id}`}>
+                      <Button>
+                        <EyeIcon class="h-6 w-6 text-white" />
+                      </Button>
+                    </Link>
+                    <Button>
+                      Editar
+                    </Button>
+                  </div>
                 </Typography>
               </div>
             ))
