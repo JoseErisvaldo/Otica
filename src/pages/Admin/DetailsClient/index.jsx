@@ -67,7 +67,8 @@ export default function DetailsClient() {
               <div key={appointment.appointment_id} className="mb-4">
                 <div className="flex flex-col items-start gap-3">
                   <div>ID: {appointment.appointment_id}</div>
-                  <div>Data: {new Date(appointment.appointment_date).toLocaleDateString()}</div>
+                  <div>Data criado: {new Date(appointment.appointment_created_at).toLocaleDateString()}</div>
+                  <div>Data do agendamento: {new Date(appointment.appointment_date).toLocaleDateString()}</div>
                   <div>Optometrista: {appointment.optometrista}</div>
                   <div>Status: {appointment.appointment_status}</div>
                   <div>Serviço: {appointment.appointment_service}</div> 

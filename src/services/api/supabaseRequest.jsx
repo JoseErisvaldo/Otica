@@ -16,7 +16,7 @@ const supabaseRequest = async ({
   method = '',
   data = null,
   filters = {},
-  limit = 10,
+  limit = 500000,
   offset = 0,
 }) => {
   try {
