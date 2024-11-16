@@ -13,7 +13,7 @@ export function ViewClient() {
       const users = await supabaseRequest({
         table: "users",
         method: "GET",
-        limit: 10,
+        limit: 30,
         offset: (page - 1) * 10,
       });
       setCustomers(users);
