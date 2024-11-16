@@ -19,18 +19,17 @@ export default function DetailsClient() {
       setError("ID do cliente não encontrado.");
       return;
     }
-
+  
     try {
       setIsLoading(true);
       setError(null);
-
+  
       const response = await supabaseRequest({
         table: "lens_appointments_view",
         method: "GET",
-        filters: { lens_order_id: `eq.${id}` },
+        filters: { client_id: `eq.${id}` },
       });
-
-      console.log(response);
+  
       setAppointments(response);
     } catch (error) {
       console.error("Erro ao buscar dados:", error.message);
@@ -62,20 +61,20 @@ export default function DetailsClient() {
           ) : error ? (
             <div className="text-red-500">Erro: {error}</div> 
           ) : appointments.length === 0 ? (
-            <div className="text-yellow-500">Não há agendamentos para este cliente.</div>
+            <div className="text-yellow-700">Não há agendamentos para este cliente.</div>
           ) : (
             appointments.map((appointment) => (
-              <div key={appointment.appointment_id}>
+              <div key={appointment.appointment_id} className="mb-4">
                 <div className="flex flex-col items-start gap-3">
                   <div>ID: {appointment.appointment_id}</div>
                   <div>Data: {new Date(appointment.appointment_date).toLocaleDateString()}</div>
                   <div>Optometrista: {appointment.optometrista}</div>
-                  <div>Status: {appointment.status}</div>
-                  <div>Serviço: {appointment.servico}</div>
-                  <div>Observações: {appointment.observacoes}</div>
+                  <div>Status: {appointment.appointment_status}</div>
+                  <div>Serviço: {appointment.appointment_service}</div> 
+                  <div>Observações: {appointment.appointment_notes}</div> 
                 </div>
                 <div className="m-2 flex items-start">
-                  <SeeSchedules id={appointment.lens_order_id} />
+                  <SeeSchedules lens_order_id={appointment.lens_order_id} />
                 </div>
               </div>
             ))
