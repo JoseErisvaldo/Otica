@@ -12,6 +12,7 @@ import {
 } from "@material-tailwind/react";
 import { SeeSchedules } from "./seeSchedules";
 import WhatsAppButton from "../WhatsAppButtonProps";
+import { DetailsSchedules } from "./datailsSchedules";
 
 export function Appointments({ appointments = [], title,message }) {
   const [open, setOpen] = useState(false);
@@ -45,7 +46,7 @@ export function Appointments({ appointments = [], title,message }) {
         <DialogBody className="overflow-auto max-h-96">
           {appointments.length > 0 ? (
             appointments.map((appointment) => (
-              <div key={appointment.appointment_id} className="mb-4">
+              <div key={appointment.appointment_id} className="mb-4 flex flex-col gap-3">
                 <p><strong>Data Criado:</strong> {new Date(appointment.appointment_created_at).toLocaleString()}</p>
                 <p><strong>Data do Agendamento:</strong> {appointment.appointment_date}</p>
                 <p><strong>Hora do Agendamento:</strong> {appointment.appointment_time}</p>
@@ -56,8 +57,11 @@ export function Appointments({ appointments = [], title,message }) {
                     phoneNumber={`55${appointment.client_whatsapp}`}
                     message={`Olá, ${appointment.client_name}, tudo bem ? ${message} ás ${appointment.appointment_time} horas. Esperamos voce !`} 
                   /></p>
-                <p><strong>Status:</strong> {appointment.appointment_status}</p>  
-                <p><SeeSchedules /></p>
+                <p><strong>Status:</strong> {appointment.appointment_status}</p> 
+                <div className="flex gap-3">
+                  <p><DetailsSchedules appointment_id={appointment.appointment_id}/></p> 
+                  <p><SeeSchedules lens_order_id={appointment.appointment_id}/></p>
+                </div>
               </div>
             ))
           ) : (

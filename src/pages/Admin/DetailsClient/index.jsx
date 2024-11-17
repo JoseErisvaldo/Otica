@@ -5,6 +5,7 @@ import supabaseRequest from "../../../services/api/supabaseRequest";
 import { useParams } from "react-router-dom";
 import ClientDetails from "../../../components/layouts/admin/Client/clientDetails";
 import { SeeSchedules } from "../../../components/layouts/admin/Appointments/seeSchedules";
+import { DetailsSchedules } from "../../../components/layouts/admin/Appointments/datailsSchedules";
 
 export default function DetailsClient() {
   const { id } = useParams();
@@ -74,7 +75,8 @@ export default function DetailsClient() {
                   <div>Serviço: {appointment.appointment_service}</div> 
                   <div>Observações: {appointment.appointment_notes}</div> 
                 </div>
-                <div className="m-2 flex items-start">
+                <div className="m-2 flex gap-3 items-start">
+                  <DetailsSchedules appointment_id={appointment.appointment_id}/>
                   <SeeSchedules lens_order_id={appointment.lens_order_id} />
                 </div>
               </div>

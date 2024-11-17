@@ -228,6 +228,8 @@ export function DetailsSchedules({ appointment_id }) {
                     >
                       <Option value="Agendado">Agendado</Option>
                       <Option value="Concluído">Concluído</Option>
+                      <Option value="Não compareceu">Não compareceu</Option>
+                      <Option value="Desistência">Desistência</Option>
                       <Option value="Cancelado">Cancelado</Option>
                     </Select>
                     <Button
