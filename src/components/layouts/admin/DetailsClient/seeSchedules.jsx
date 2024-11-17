@@ -43,7 +43,7 @@ export function SeeSchedules({ lens_order_id }) {
   return (
     <>
       <Button onClick={handleOpen} variant="gradient" disabled={isLoading}>
-        {isLoading ? "Carregando..." : "Detalhes"}
+        {isLoading ? "Carregando..." : "Detalhes da consulta"}
       </Button>
 
       <Dialog open={open} handler={handleOpen}>

@@ -11,7 +11,8 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { EyeIcon } from "@heroicons/react/24/outline";
-import supabaseRequest from "../../../services/api/supabaseRequest";  // Certifique-se de que a função supabaseRequest está configurada corretamente
+import supabaseRequest from "../../../services/api/supabaseRequest";
+import { SeeSchedules } from "./DetailsClient/seeSchedules";
 
 export function ListAppointment() {
   const [appointments, setAppointments] = useState([]);
@@ -84,7 +85,6 @@ export function ListAppointment() {
               </div>
 
               <div className="divide-y divide-gray-200">
-                {/* Exibindo os agendamentos */}
                 {appointments.map((appointment) => (
                   <div key={appointment.appointment_id} className="flex items-center justify-between pb-3 pt-3 last:pb-0">
                     <div className="flex items-center gap-x-3">
@@ -109,6 +109,7 @@ export function ListAppointment() {
                     <Typography color="blue-gray" variant="h6">
                       {appointment.appointment_status === "confirmed" ? "Confirmado" : "Pendente"}
                     </Typography>
+                    <SeeSchedules lens_order_id={appointment.appointment_id}/>
                   </div>
                 ))}
               </div>

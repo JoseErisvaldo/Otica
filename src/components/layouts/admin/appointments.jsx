@@ -10,8 +10,10 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
+import { SeeSchedules } from "./DetailsClient/seeSchedules";
+import WhatsAppButton from "./WhatsAppButtonProps";
 
-export function Appointments({ appointments = [], title }) {
+export function Appointments({ appointments = [], title,message }) {
   const [open, setOpen] = useState(false);
 
   const handleOpenDialog = () => {
@@ -21,7 +23,7 @@ export function Appointments({ appointments = [], title }) {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-
+  console.log(appointments)
   return (
     <Card className="m-6 w-96">
       <CardBody>
@@ -45,11 +47,18 @@ export function Appointments({ appointments = [], title }) {
           {appointments.length > 0 ? (
             appointments.map((appointment) => (
               <div key={appointment.appointment_id} className="mb-4">
-                <p><strong>Data Criado:</strong> {appointment.appointment_created_at}</p>
+                <p><strong>Data Criado:</strong> {new Date(appointment.appointment_created_at).toLocaleString()}</p>
                 <p><strong>Data do Agendamento:</strong> {appointment.appointment_date}</p>
+                <p><strong>Hora do Agendamento:</strong> {appointment.appointment_time}</p>
                 <p><strong>Nome do Cliente:</strong> {appointment.client_name}</p>
-                <p><strong>WhatsApp:</strong> {appointment.client_whatsapp}</p>
-                <p><strong>Status:</strong> {appointment.appointment_status}</p>
+                <p className="flex gap-3">
+                  <strong>WhatsApp: {appointment.client_whatsapp}</strong> 
+                  <WhatsAppButton
+                    phoneNumber={`55${appointment.client_whatsapp}`}
+                    message={`Olá, ${appointment.client_name}, tudo bem ? ${message} ás ${appointment.appointment_time} horas. Esperamos voce !`} 
+                  /></p>
+                <p><strong>Status:</strong> {appointment.appointment_status}</p>  
+                <p><SeeSchedules /></p>
               </div>
             ))
           ) : (

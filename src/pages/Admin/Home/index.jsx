@@ -7,7 +7,6 @@ import SideBar from "../../../components/layouts/admin/dashboard/sideBar";
 import PieChart from "../../../components/layouts/admin/dashboard/pieChart";
 import { useEffect, useState } from "react";
 import supabase from "../../../services/supabase";
-import { Dialog } from "@material-tailwind/react"; // Para o Dialog
 
 export default function Home() {
   const [appointmentNextDay, setAppointmentNextDay] = useState([]);
@@ -67,10 +66,12 @@ export default function Home() {
             <Appointments
               title={"Agendamento hoje"}
               appointments={appointmentsToday}
+              message={"Olá, estou passando aqui para lembra do seu agendamento de hoje"}
             />
             <Appointments
               title={"Agendamento para amanhã"}
               appointments={appointmentNextDay}
+              message={"estou passando aqui para lembra do seu agendamento para amanhã"}
             />
           </div>
         </div>
