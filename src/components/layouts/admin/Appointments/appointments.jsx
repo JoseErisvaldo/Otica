@@ -23,7 +23,6 @@ export function Appointments({ appointments = [], title,message }) {
   const handleCloseDialog = () => {
     setOpen(false);
   };
-  console.log(appointments)
   return (
     <Card className="m-6 w-96">
       <CardBody>

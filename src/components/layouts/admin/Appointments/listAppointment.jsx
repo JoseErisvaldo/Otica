@@ -13,6 +13,8 @@ import {
 import { EyeIcon } from "@heroicons/react/24/outline";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { SeeSchedules } from "./seeSchedules";
+import { DetailsSchedules } from "./datailsSchedules";
+import WhatsAppButton from "../WhatsAppButtonProps";
 
 export function ListAppointment() {
   const [appointments, setAppointments] = useState([]);
@@ -27,7 +29,7 @@ export function ListAppointment() {
         table: "lens_appointments_view",
         method: "GET",
       });
-      console.log(response)
+
       setAppointments(response);
     } catch (error) {
       console.error("Erro ao exibir os dados:", error.message);
@@ -86,14 +88,17 @@ export function ListAppointment() {
 
               <div className="divide-y divide-gray-200">
                 {appointments.map((appointment) => (
-                  <div key={appointment.appointment_id} className="flex items-center justify-between pb-3 pt-3 last:pb-0">
+                  <div key={appointment.appointment_id} className="flex flex-col pb-3 pt-3 last:pb-0">
                     <div className="flex items-center gap-x-3">
-                      <div>
+                      <Card>
                         <Typography color="blue-gray" variant="h6">
                           {appointment.client_name}
                         </Typography>
                         <Typography variant="small" color="gray">
-                          {appointment.client_whatsapp}
+                          Criado em: {new Date(appointment.appointment_created_at).toLocaleDateString('pt-BR')} às {new Date(appointment.appointment_created_at).toLocaleTimeString('pt-BR')}
+                        </Typography>
+                        <Typography variant="small" color="gray" className="flex">
+                          {appointment.client_whatsapp} - <WhatsAppButton phoneNumber={appointment.client_whatsapp} />
                         </Typography>
                         <Typography variant="small" color="gray">
                           {appointment.appointment_date} - {appointment.appointment_time}
@@ -101,15 +106,16 @@ export function ListAppointment() {
                         <Typography variant="small" color="gray">
                           Status: {appointment.appointment_status}
                         </Typography>
-                        <Typography variant="small" color="gray">
-                          Criado em: {new Date(appointment.appointment_created_at).toLocaleDateString('pt-BR')} às {new Date(appointment.appointment_created_at).toLocaleTimeString('pt-BR')}
-                        </Typography>
-                      </div>
+                      </Card>
                     </div>
-                    <Typography color="blue-gray" variant="h6">
-                      {appointment.appointment_status === "confirmed" ? "Confirmado" : "Pendente"}
-                    </Typography>
-                    <SeeSchedules lens_order_id={appointment.appointment_id}/>
+                    <div className="flex gap-3">
+                      <Typography color="blue-gray" variant="h6">
+                        <DetailsSchedules appointment_id={appointment.appointment_id}/>
+                      </Typography>
+                      <Typography color="blue-gray" variant="h6">
+                        <SeeSchedules lens_order_id={appointment.appointment_id}/>
+                      </Typography>
+                    </div>
                   </div>
                 ))}
               </div>
