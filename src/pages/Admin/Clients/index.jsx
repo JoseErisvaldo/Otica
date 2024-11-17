@@ -1,5 +1,5 @@
-import { NewClient } from "../../../components/layouts/admin/newClient";
-import { ViewClient } from "../../../components/layouts/admin/viewClient";
+import { NewClient } from "../../../components/layouts/admin/Client/newClient";
+import { ViewClient } from "../../../components/layouts/admin/Client/viewClient";
 import LayoutAdmin from "../../../layouts/Admin";
 
 export default function Clients () { 

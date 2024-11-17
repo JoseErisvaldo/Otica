@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
-import supabaseRequest from "../../../services/api/supabaseRequest";
+import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 

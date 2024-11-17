@@ -1,6 +1,6 @@
-import { NewCategory } from "../../../components/layouts/admin/newCategory";
-import { ViewCategory } from "../../../components/layouts/admin/viewCategory";
+import { NewCategory } from "../../../components/layouts/admin/Client/newCategory";
 import LayoutAdmin from "../../../layouts/Admin";
+
 
 export default function CategoryOfCuts () { 
   return(
@@ -9,7 +9,7 @@ export default function CategoryOfCuts () {
         <NewCategory /> 
       </div>
       <div>
-        <ViewCategory/>
+        
       </div>
     </LayoutAdmin>
   )

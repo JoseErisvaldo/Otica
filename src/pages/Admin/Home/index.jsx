@@ -1,12 +1,12 @@
-import { Button, Card } from "@material-tailwind/react";
-import { Appointments } from "../../../components/layouts/admin/appointments";
+import { Card } from "@material-tailwind/react";
 import LayoutAdmin from "../../../layouts/Admin";
-import { NewSchedule } from "../../../components/layouts/admin/newSchedule";
-import { ListAppointment } from "../../../components/layouts/admin/listAppointment";
 import SideBar from "../../../components/layouts/admin/dashboard/sideBar";
 import PieChart from "../../../components/layouts/admin/dashboard/pieChart";
 import { useEffect, useState } from "react";
 import supabase from "../../../services/supabase";
+import { ListAppointment } from "../../../components/layouts/admin/Appointments/listAppointment";
+import { NewSchedule } from "../../../components/layouts/admin/Appointments/newSchedule";
+import { Appointments } from "../../../components/layouts/admin/Appointments/appointments";
 
 export default function Home() {
   const [appointmentNextDay, setAppointmentNextDay] = useState([]);

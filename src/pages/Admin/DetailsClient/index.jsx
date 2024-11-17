@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@material-tailwind/react";
-import ClientDetails from "../../../components/layouts/admin/clientDetails";
 import LayoutAdmin from "../../../layouts/Admin";
-import { SeeSchedules } from "../../../components/layouts/admin/DetailsClient/seeSchedules";
 import supabaseRequest from "../../../services/api/supabaseRequest";
 import { useParams } from "react-router-dom";
+import ClientDetails from "../../../components/layouts/admin/Client/clientDetails";
+import { SeeSchedules } from "../../../components/layouts/admin/Appointments/seeSchedules";
 
 export default function DetailsClient() {
   const { id } = useParams();

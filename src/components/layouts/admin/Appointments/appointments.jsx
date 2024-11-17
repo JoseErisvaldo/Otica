@@ -10,8 +10,8 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import { SeeSchedules } from "./DetailsClient/seeSchedules";
-import WhatsAppButton from "./WhatsAppButtonProps";
+import { SeeSchedules } from "./seeSchedules";
+import WhatsAppButton from "../WhatsAppButtonProps";
 
 export function Appointments({ appointments = [], title,message }) {
   const [open, setOpen] = useState(false);

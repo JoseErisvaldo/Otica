@@ -11,8 +11,8 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { EyeIcon } from "@heroicons/react/24/outline";
-import supabaseRequest from "../../../services/api/supabaseRequest";
-import { SeeSchedules } from "./DetailsClient/seeSchedules";
+import supabaseRequest from "../../../../services/api/supabaseRequest";
+import { SeeSchedules } from "./seeSchedules";
 
 export function ListAppointment() {
   const [appointments, setAppointments] = useState([]);

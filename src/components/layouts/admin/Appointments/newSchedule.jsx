@@ -12,7 +12,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import supabaseRequest from "../../../services/api/supabaseRequest";
+import supabaseRequest from "../../../../services/api/supabaseRequest";
 
 export function NewSchedule() {
   const [open, setOpen] = useState(false);
