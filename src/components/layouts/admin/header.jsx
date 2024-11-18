@@ -121,6 +121,11 @@ const navListItems = [
     label: "Clientes",
     icon: UserCircleIcon,
     link: '/admin/clientes'
+  },
+  {
+    label: "Médico",
+    icon: UserCircleIcon,
+    link: '/admin/medico'
   }
 ];
  
