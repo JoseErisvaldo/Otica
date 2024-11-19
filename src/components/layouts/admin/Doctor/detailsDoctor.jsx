@@ -48,9 +48,6 @@ export default function DetailsDoctor({ doctor_id }) {
         <Typography variant="h4" color="blue-gray" className="mb-2">
           {doctor.first_name} {doctor.last_name}
         </Typography>
-        <Typography color="blue-gray" className="font-medium" textGradient>
-          {doctor.specialty || "Especialidade não informada"}
-        </Typography>
         <div className="flex flex-col items-center gap-4 mt-6">
           <div className="flex items-center gap-2">
             <EnvelopeIcon className="h-5 w-5 text-blue-500" />

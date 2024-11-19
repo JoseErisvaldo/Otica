@@ -17,7 +17,6 @@ export function NewDoctor() {
   const [doctorData, setDoctorData] = useState({
     first_name: "",
     last_name: "",
-    specialty: "",
     crm: "",
     phone: "",
     email: "",
@@ -95,20 +94,6 @@ export function NewDoctor() {
               placeholder="Sobrenome"
               name="last_name"
               value={doctorData.last_name}
-              onChange={handleChange}
-              className="placeholder:opacity-100 focus:!border-t-gray-900"
-            />
-          </div>
-          <div>
-            <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
-              Especialidade
-            </Typography>
-            <Input
-              color="gray"
-              size="lg"
-              placeholder="Especialidade"
-              name="specialty"
-              value={doctorData.specialty}
               onChange={handleChange}
               className="placeholder:opacity-100 focus:!border-t-gray-900"
             />
