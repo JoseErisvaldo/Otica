@@ -43,7 +43,7 @@ export default function DetailsDoctor({ doctor_id }) {
   }
 
   return (
-    <Card className="mx-auto mt-5">
+    <Card>
       <CardBody className="text-center">
         <Typography variant="h4" color="blue-gray" className="mb-2">
           {doctor.first_name} {doctor.last_name}
