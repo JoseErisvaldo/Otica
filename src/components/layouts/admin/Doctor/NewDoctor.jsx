@@ -12,7 +12,7 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import supabase from "../../../../services/supabase";
 
-export function NewDoctor() {
+export default function NewDoctor() {
   const [open, setOpen] = useState(false);
   const [doctorData, setDoctorData] = useState({
     first_name: "",

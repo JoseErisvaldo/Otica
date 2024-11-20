@@ -4,7 +4,7 @@ import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-export function ViewDoctor() {
+export default function ViewDoctor() {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
-import { EyeIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
 import { OpeningHours } from "./OpeningHours";
 
-export function ViewSpecialty({ doctor_id }) {
+export default function ViewSpecialty({ doctor_id }) {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
