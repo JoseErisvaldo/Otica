@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Card, div, Typography } from "@material-tailwind/react";
+import { Button, Card, Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { OpeningHours } from "./OpeningHours";
 
-export function ViewSpecialty({doctor_id}) {
+export function ViewSpecialty({ doctor_id }) {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -13,7 +14,7 @@ export function ViewSpecialty({doctor_id}) {
       const doctorsData = await supabaseRequest({
         table: "doctors_specialty",
         method: "GET",
-        filters: { id: `eq.${doctor_id}` },
+        filters: { id_doctors: `eq.${doctor_id}` },
       });
       setDoctors(doctorsData);
     } catch (error) {
@@ -28,40 +29,35 @@ export function ViewSpecialty({doctor_id}) {
   }, []);
 
   return (
-    <div>
-      <div>
-        <div className="mb-4 flex items-center justify-between">
-          <Typography variant="h5" color="blue-gray">
-            Listar Especialidade
-          </Typography>
-        </div>
-        <div className="divide-y divide-gray-200">
-          {isLoading ? (
-            <Typography>Carregando...</Typography>
-          ) : (
-            doctors.map(({ id, first_name, last_name, specialty, crm }, index) => (
-              <div key={id} className="flex items-center justify-between pb-3 pt-3 last:pb-0">
-                <div className="flex flex-col sm:flex-row items-center gap-x-3">
-                  <Typography color="blue-gray" variant="h6">
-                    {first_name} {last_name}
-                  </Typography>
-                  <Typography color="blue-gray">{specialty}</Typography>
-                  <Typography color="blue-gray">{crm}</Typography>
-                </div>
-                <Typography color="blue-gray" variant="h6">
-                  <div className="flex gap-3">
-                    <Link to={`/admin/detalhesmedico/${id}`}>
-                      <Button>
-                        <EyeIcon className="h-6 w-6 text-white" />
-                      </Button>
-                    </Link>
-                    <Button>Editar</Button>
-                  </div>
+    <div className="container mx-auto p-4">
+      <div className="mb-6 flex items-center justify-between">
+        <Typography variant="h5" color="blue-gray" className="font-semibold text-xl">
+          Listar Especialidades
+        </Typography>
+      </div>
+      <div className="divide-y divide-gray-200">
+        {isLoading ? (
+          <div className="text-center py-4">
+            <Typography variant="h6" color="gray" className="text-lg">
+              Carregando...
+            </Typography>
+          </div>
+        ) : (
+          doctors.map(({ id, id_doctors,specialty }, index) => (
+            <div key={id} className=" flex  justify-between py-4 px-6 rounded-lg  mb-4">
+              <div className="flex flex-row sm:flex-row items-center gap-x-3">
+                <Typography color="blue-gray" className="font-bold text-1xl text-center sm:text-left">
+                  {specialty}
                 </Typography>
               </div>
-            ))
-          )}
-        </div>
+              <div className="mt-2 flex justify-between items-center">
+                <div className="flex items-center space-x-3">
+                  <OpeningHours id_specialty={id} id_doctor={id_doctors} />
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

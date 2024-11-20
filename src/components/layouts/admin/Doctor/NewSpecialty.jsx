@@ -13,11 +13,10 @@ import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import supabase from "../../../../services/supabase";
 
 export function NewSpecialty({ doctor_id }) {
-  console.log(doctor_id);
 
   const [open, setOpen] = useState(false);
   const [specialtyData, setSpecialtyData] = useState({
-    id: doctor_id || "",
+    id_doctors: doctor_id || "",
     specialty: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
