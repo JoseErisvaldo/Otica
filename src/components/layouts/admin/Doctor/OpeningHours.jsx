@@ -22,7 +22,7 @@ const DAYS_OF_WEEK = [
   { label: "Sábado", value: 6 },
 ];
 
-export default function OpeningHours({ id_specialty, id_doctor }) {
+export default function OpeningHours ({ id_specialty, id_doctor }) {
   const [open, setOpen] = useState(false);
   const [specialty, setSpecialty] = useState([]);
   const [scheduleData, setScheduleData] = useState({

@@ -6,7 +6,7 @@ import {
 } from "@material-tailwind/react";
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
-import { DefaultSkeleton } from "../DefaultSkeleton";
+import  DefaultSkeleton  from "../DefaultSkeleton";
 
 export default function DetailsDoctor({ doctor_id }) {
   const [doctor, setDoctor] = useState(null); 

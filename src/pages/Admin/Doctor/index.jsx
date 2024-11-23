@@ -1,5 +1,6 @@
-import { NewDoctor } from "../../../components/layouts/admin/Doctor/NewDoctor";
-import { ViewDoctor } from "../../../components/layouts/admin/Doctor/ViewDoctor";
+
+import NewDoctor from "../../../components/layouts/admin/Doctor/NewDoctor";
+import ViewDoctor from "../../../components/layouts/admin/Doctor/ViewDoctor";
 import LayoutAdmin from "../../../layouts/Admin";
 
 export default function Doctor () { 

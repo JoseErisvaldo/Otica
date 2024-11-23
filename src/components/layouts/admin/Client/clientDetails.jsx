@@ -7,7 +7,7 @@ import {
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { useParams } from "react-router-dom";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
-import { DefaultSkeleton } from "../DefaultSkeleton";
+import DefaultSkeleton from "../DefaultSkeleton";
 
 export default function ClientDetails() {
   const { id } = useParams(); 

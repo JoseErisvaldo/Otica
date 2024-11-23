@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
-import { OpeningHours } from "./OpeningHours";
 
 export default function ViewSpecialty({ doctor_id }) {
   const [doctors, setDoctors] = useState([]);
