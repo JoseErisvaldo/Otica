@@ -28,7 +28,7 @@ export default function OpeningHours ({ id_specialty, id_doctor }) {
   const [scheduleData, setScheduleData] = useState({
     id: null,
     doctor_id: id_doctor,
-    specialty_id: id_specialty,
+    specialty: id_specialty,
     day_of_week: "",
     time: "",
   });
@@ -58,7 +58,7 @@ export default function OpeningHours ({ id_specialty, id_doctor }) {
         .from("doctor_schedules")
         .select("id, day_of_week, time")
         .eq("doctor_id", id_doctor)
-        .eq("specialty_id", id_specialty);
+        .eq("specialty", id_specialty);
 
       if (error) throw error;
 
@@ -81,14 +81,14 @@ export default function OpeningHours ({ id_specialty, id_doctor }) {
       ...prevData,
       [name]: value,
     }));
+      
   };
-
   const handleSubmit = async () => {
     if (!scheduleData.day_of_week || !scheduleData.time) {
       alert("Por favor, informe o dia e o horário.");
       return;
     }
-
+    console.log("scheduleData",scheduleData)
     try {
       if (isEditing) {
         // Atualizar horário
@@ -96,17 +96,24 @@ export default function OpeningHours ({ id_specialty, id_doctor }) {
           .from("doctor_schedules")
           .update({ day_of_week: scheduleData.day_of_week, time: scheduleData.time })
           .eq("id", scheduleData.id);
-
+  
         if (error) throw error;
         alert("Horário atualizado com sucesso!");
       } else {
-        // Inserir novo horário
-        const { error } = await supabase.from("doctor_schedules").insert([scheduleData]);
-
+        // Inserir novo horário (omitindo 'id')
+        const { error } = await supabase
+          .from("doctor_schedules")
+          .insert([{
+            doctor_id: scheduleData.doctor_id,
+            specialty: scheduleData.specialty,
+            day_of_week: scheduleData.day_of_week,
+            time: scheduleData.time,
+          }]);
+  
         if (error) throw error;
         alert("Horário cadastrado com sucesso!");
       }
-      
+  
       setOpen(false);
       setIsEditing(false); // Resetar o estado de edição
       fetchSchedules();
@@ -120,7 +127,7 @@ export default function OpeningHours ({ id_specialty, id_doctor }) {
     setScheduleData({
       id: schedule.id,
       doctor_id: id_doctor,
-      specialty_id: id_specialty,
+      specialty: id_specialty,
       day_of_week: schedule.day_of_week,
       time: schedule.time,
     });
