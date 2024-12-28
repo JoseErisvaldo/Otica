@@ -26,10 +26,13 @@ export function NewSchedule() {
   const [clients, setClients] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [doctorSpecialties, setDoctorSpecialties] = useState([]);
+  const [availableTimesGeneral, setAvailableTimesGeneral] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]); // Para armazenar os horários disponíveis
+  console.log("availableTimes", availableTimes)
   const [isLoading, setIsLoading] = useState(false);
   const [isTimeAvailable, setIsTimeAvailable] = useState(true); // Verifica se o horário está disponível
   const [registeredTimes, setRegisteredTimes] = useState([]); 
+  const [dayOfWeek, setDayOfWeek] = useState(null); 
 
   // Função para abrir/fechar o modal
   const handleOpen = () => setOpen(!open);
@@ -71,7 +74,6 @@ export function NewSchedule() {
   };
 
   const handleClientSelect = (clientId) => {
-    console.log(clientId)
     setFormData({ ...formData, id_client: clientId }); 
     setSearchTerm(""); 
     setClients([]);
@@ -105,31 +107,9 @@ export function NewSchedule() {
       setDoctorSpecialties([]); // Garantir que nunca seja undefined
     }
   };
-
-  // Função para buscar os horários disponíveis de um médico para uma data e especialidade
-  const fetchAvailableTimes = async (doctorId, specialty, date) => {
-    if (!doctorId || !specialty || !date) {
-      return; // Não faz sentido buscar horários sem essas informações
-    }
-    try {
-      const response = await supabaseRequest({
-        table: "appointments",
-        method: "GET",
-        filters: {
-          id_doctor: `eq.${doctorId}`,
-          specialty: `eq.${specialty}`,
-          date: `eq.${date}`,
-        },
-      });
-      console.log(response)
-      return response; // Retorna os horários já agendados
-    } catch (error) {
-      console.error("Erro ao buscar horários do médico:", error.message);
-      return []; // Retorna um array vazio em caso de erro
-    }
-  };
-  // Função para buscar os horários disponíveis de um médico para uma data e especialidade
-  const fetchDoctorSchedules = async (doctorId, specialty) => {
+  // Função para buscar os horários disponíveis de um médico para uma data e especialidade expesificada
+  const fetchAvailableTimesGeneral = async (doctorId, specialty) => {
+    console.log("specialty", specialty)
     if (!doctorId || !specialty) {
       return; // Não faz sentido buscar horários sem essas informações
     }
@@ -140,9 +120,55 @@ export function NewSchedule() {
         filters: {
           doctor_id: `eq.${doctorId}`,
           specialty: `eq.${specialty}`
+          /*status: `neq."Desistência"`,*/ 
         },
       });
-      console.log("horários cadastados",response)
+
+      console.log("response", response) 
+      return response; // Retorna os horários já agendados
+    } catch (error) {
+      console.error("Erro ao buscar horários do médico:", error.message);
+      return []; // Retorna um array vazio em caso de erro
+    }
+  };
+
+  // Função para buscar os horários agendado de um médico para uma data especifica
+  const fetchAvailableTimes = async (doctorId, specialty, date) => {
+    if (!doctorId || !specialty || !date) {
+      return; // Não faz sentido buscar horários sem essas informações
+    }
+    try {
+      const response = await supabaseRequest({
+        table: "appointments",
+        method: "GET",
+        filters: {
+          id_doctor: `eq.${doctorId}`,
+          date: `eq.${date}`
+          /*status: `neq."Desistência"`,*/ 
+        },
+      });
+      console.log("response", response)
+      return response; // Retorna os horários já agendados
+    } catch (error) {
+      console.error("Erro ao buscar horários do médico:", error.message);
+      return []; // Retorna um array vazio em caso de erro
+    }
+  };
+  // Função para buscar os horários disponíveis de um médico para uma data expecifica
+  const fetchDoctorSchedules = async (doctorId, specialty, dayOfWeek) => {
+    if (!doctorId || !specialty) {
+      return; // Não faz sentido buscar horários sem essas informações
+    }
+    try {
+      const response = await supabaseRequest({
+        table: "view_doctor_details",
+        method: "GET",
+        filters: {
+          doctor_id: `eq.${doctorId}`,
+          specialty: `eq.${specialty}`,
+          day_of_week: `eq.${dayOfWeek}`
+        },
+      });
       setRegisteredTimes(response)
       return response; // Retorna os horários cadastados
     } catch (error) {
@@ -151,10 +177,10 @@ export function NewSchedule() {
     }
   };
   useEffect(() => {
-    if (formData.id_doctor && formData.specialty) {
-      fetchDoctorSchedules(formData.id_doctor, formData.specialty);
+    if (formData.id_doctor && formData.specialty && dayOfWeek !== null) {
+      fetchDoctorSchedules(formData.id_doctor, formData.specialty, dayOfWeek);
     }
-  }, [formData.id_doctor, formData.specialty]); // Chama quando id_doctor ou specialty mudarem
+  }, [formData.id_doctor, formData.specialty, dayOfWeek]); // Chama quando id_doctor ou specialty mudarem
   // Função para verificar se o horário está disponível
   const checkIfTimeIsAvailable = async (doctorId, specialty, date, time) => {
     try {
@@ -181,10 +207,11 @@ export function NewSchedule() {
 
   // Função para manipular a seleção de um médico
   const handleDoctorSelect = async (doctorId) => {
-    setFormData({ ...formData, id_doctor: doctorId, specialty: "" });
+    setFormData({ ...formData, id_doctor: doctorId, specialty: "", date: "" });
     setAvailableTimes([]); // Limpar horários disponíveis
     setDoctorSpecialties([]); // Limpar especialidades
     setIsLoading(true);
+    setAvailableTimesGeneral([]);
 
     // Buscar especialidades do médico
     await fetchDoctorSpecialties(doctorId);
@@ -197,21 +224,24 @@ export function NewSchedule() {
     setFormData((prevData) => ({
       ...prevData,
       specialty: specialty,
+      date: ""
     }));
     setAvailableTimes([]); // Limpar horários
-
+    const availableSchedulesGeneral = await fetchAvailableTimesGeneral(
+      formData.id_doctor, 
+      specialty
+    ); 
+    setAvailableTimesGeneral(availableSchedulesGeneral) // Atualiza os horários availableSchedulesGeneral
     if (formData.date) {
       const availableSchedules = await fetchAvailableTimes(
         formData.id_doctor, 
         specialty,
         formData.date
-      );
-      console.log("availableSchedules",availableSchedules)  
+      ); 
       const doctorSchedules = await fetchDoctorSchedules(
         formData.id_doctor,
         specialty
       );
-      console.log("doctorSchedules",doctorSchedules)
       setTeste(doctorSchedules)
       setAvailableTimes(availableSchedules); // Atualiza os horários disponíveis
     }
@@ -219,21 +249,30 @@ export function NewSchedule() {
 
   // Função para manipular a mudança da data
   const handleDateChange = async (e) => {
-    const selectedDate = e.target.value;
+    const selectedDate = e.target.value; // Data no formato yyyy-MM-dd
+    const dateObject = new Date(`${selectedDate}T00:00:00`);
+    const dayOfWeek = dateObject.getDay();
+    // Atualiza o estado do dia da semana
+    setDayOfWeek(dayOfWeek);
+  
+    // Atualiza o estado do formulário
     setFormData((prevData) => ({
       ...prevData,
       date: selectedDate,
     }));
-
+  
+    // Busca horários disponíveis, se houver especialidade selecionada
     if (formData.specialty) {
       const availableSchedules = await fetchAvailableTimes(
         formData.id_doctor,
         formData.specialty,
         selectedDate
       );
+      console.log("availableSchedules", availableSchedules)
       setAvailableTimes(availableSchedules); // Atualiza os horários disponíveis
     }
   };
+  
 
   // Função para manipular a mudança do horário
   const handleTimeChange = (e) => {
@@ -264,8 +303,6 @@ export function NewSchedule() {
         method: "POST",
         data: validFormData,
       });
-
-      console.log("Agendamento realizado com sucesso:", response);
       alert("Agendamento realizado com sucesso!");
       setOpen(false);
       setFormData({
@@ -343,6 +380,87 @@ export function NewSchedule() {
               </>
             )}
 
+            {availableTimesGeneral.length > 0 && (
+              <>
+                <Typography variant="small" color="gray">Dia da semana e horários de atendimento:</Typography>
+                <div className="flex flex-row gap-2">
+                  <div className="flex flex-col bor gap-2">
+                      Domingo:
+                      {availableTimesGeneral.map((time) => 
+                        time.day_of_week === 0 && ( // Verifica se o dia da semana é igual a 3
+                          <div key={time.id} className="flex flex-col gap-2">
+                            <span>{time.schedule_time}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <div className="flex flex-col bor gap-2">
+                      Segunda-feira:
+                      {availableTimesGeneral.map((time) => 
+                        time.day_of_week === 1 && ( // Verifica se o dia da semana é igual a 3
+                          <div key={time.id} className="flex flex-col gap-2">
+                            <span>{time.schedule_time}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <div className="flex flex-col bor gap-2">
+                      Terça-feira:
+                      {availableTimesGeneral.map((time) => 
+                        time.day_of_week === 2 && ( // Verifica se o dia da semana é igual a 3
+                          <div key={time.id} className="flex flex-col gap-2">
+                            <span>{time.schedule_time}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <div className="flex flex-col bor gap-2">
+                      Quarta-feira:
+                      {availableTimesGeneral.map((time) => 
+                        time.day_of_week === 3 && ( // Verifica se o dia da semana é igual a 3
+                          <div key={time.id} className="flex flex-col gap-2">
+                            <span>{time.schedule_time}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    
+                  </div>
+                  <div className="flex flex-row bor gap-2">
+                      <div className="flex flex-col bor gap-2">
+                        Quinta-feira:
+                        {availableTimesGeneral.map((time) => 
+                          time.day_of_week === 4 && ( // Verifica se o dia da semana é igual a 3
+                            <div key={time.id} className="flex flex-col gap-2">
+                              <span>{time.schedule_time}</span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <div className="flex flex-col bor gap-2">
+                        Sexta-feira:
+                        {availableTimesGeneral.map((time) => 
+                          time.day_of_week === 5 && ( // Verifica se o dia da semana é igual a 3
+                            <div key={time.id} className="flex flex-col gap-2">
+                              <span>{time.schedule_time}</span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <div className="flex flex-col bor gap-2">
+                        Sabado:
+                        {availableTimesGeneral.map((time) => 
+                          time.day_of_week === 5 && ( // Verifica se o dia da semana é igual a 3
+                            <div key={time.id} className="flex flex-col gap-2">
+                              <span>{time.schedule_time}</span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                  </div>
+              </>
+            )}
+
             <Typography variant="small" color="gray">Data:</Typography>
             <Input
               type="date"
@@ -353,15 +471,16 @@ export function NewSchedule() {
             />
 
             <Typography variant="small" color="gray">
+              {availableTimes.length > 0 ? <div className="font-bold">Horários agendados:</div> : ""}
               {availableTimes.length > 0 ? (
                 availableTimes.map((time) => (
                   <div key={time.id} className="flex flex-col gap-2">
-                    <span>Agendamentos para </span>
-                    <span>{time.appointment_time}</span>
+                    
+                    <span>{time.specialty} - {time.appointment_time}</span>
                   </div>
                 ))
               ) : (
-                <div value="">Nenhum agendamento</div>
+                <div value=""></div>
               )}
             </Typography>
             <select
