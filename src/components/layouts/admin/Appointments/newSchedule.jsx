@@ -490,9 +490,8 @@ export function NewSchedule() {
               value={formData.appointment_time}
               onChange={handleTimeChange}
               required
-              className="w-full bg-white border border-gray-300 rounded-md p-2"
             >
-              <option value="" className="w-full bg-white border border-gray-300 rounded-md p-2">Selecione o horário</option>
+              <option value="">Selecione o horário</option>
               {registeredTimes.length > 0 ? (
                 registeredTimes.map((time) => (
                   <option key={time.doctor_id} value={time.schedule_time}>
