@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Input,
-  Select,
-  Option,
   Button,
   Dialog,
   IconButton,
@@ -11,24 +9,25 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@material-tailwind/react";
-import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
+import supabase from "../../../../services/supabase";
 
 export function NewSchedule() {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     id_doctor: "",
     date: "",
-    appointment_time: "09:00",
-    id_client: null,
+    appointment_time: "",
+    id_client: '',
     specialty: "",
   });
   const [clients, setClients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [doctors, setDoctors] = useState([]);
   const [doctorSpecialties, setDoctorSpecialties] = useState([]);
   const [availableTimesGeneral, setAvailableTimesGeneral] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]); // Para armazenar os horários disponíveis
-  console.log("availableTimes", availableTimes)
   const [isLoading, setIsLoading] = useState(false);
   const [isTimeAvailable, setIsTimeAvailable] = useState(true); // Verifica se o horário está disponível
   const [registeredTimes, setRegisteredTimes] = useState([]); 
@@ -46,38 +45,49 @@ export function NewSchedule() {
     }));
   };
 
+const handleClientSearch = async () => {
+  try {
+    setIsLoading(true);
 
-  const searchClients = async (searchTerm) => {
-    try {
-      setIsLoading(true);
-      const response = await supabaseRequest({
-        table: "rpc/search_users",
-        method: "POST",
-        data: { search_term: searchTerm },
-      });
-      setClients(response);
-    } catch (error) {
+    // Chamada direta ao Supabase para a função RPC
+    const { data, error } = await supabase.rpc("search_users", {
+      search_term: searchTerm,
+    });
+
+    if (error) {
       console.error("Erro ao buscar clientes:", error.message);
-    } finally {
-      setIsLoading(false);
+      return;
     }
-  };
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    if (value.length >= 2) {
-      searchClients(value);
+    if (data && Array.isArray(data)) {
+      setClients(data); // Define o estado apenas se o formato for um array
     } else {
-      setClients([]); 
+      console.warn("Formato inesperado de resposta:", data);
+      setClients([]); // Reseta o estado caso o formato não seja esperado
     }
+  } catch (error) {
+    console.error("Erro ao buscar clientes:", error.message);
+  } finally {
+    setIsLoading(false); // Finaliza o estado de carregamento
+  }
+};
+
+  
+
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    // Checa se o input tem 2 ou mais caracteres antes de buscar
   };
 
-  const handleClientSelect = (clientId) => {
-    setFormData({ ...formData, id_client: clientId }); 
-    setSearchTerm(""); 
-    setClients([]);
+  const handleClientSelect = (id) => {
+    const selectedClient = clients.find((client) => client.id === id);
+    setFormData((prev) => ({
+      ...prev,
+      id_client: id // Atualiza o ID do cliente selecionado
+      
+    }));
+    setSearchTerm('')
   };
+  
 
 
   // Função para buscar médicos
@@ -109,7 +119,6 @@ export function NewSchedule() {
   };
   // Função para buscar os horários disponíveis de um médico para uma data e especialidade expesificada
   const fetchAvailableTimesGeneral = async (doctorId, specialty) => {
-    console.log("specialty", specialty)
     if (!doctorId || !specialty) {
       return; // Não faz sentido buscar horários sem essas informações
     }
@@ -123,8 +132,6 @@ export function NewSchedule() {
           /*status: `neq."Desistência"`,*/ 
         },
       });
-
-      console.log("response", response) 
       return response; // Retorna os horários já agendados
     } catch (error) {
       console.error("Erro ao buscar horários do médico:", error.message);
@@ -147,7 +154,6 @@ export function NewSchedule() {
           /*status: `neq."Desistência"`,*/ 
         },
       });
-      console.log("response", response)
       return response; // Retorna os horários já agendados
     } catch (error) {
       console.error("Erro ao buscar horários do médico:", error.message);
@@ -268,7 +274,6 @@ export function NewSchedule() {
         formData.specialty,
         selectedDate
       );
-      console.log("availableSchedules", availableSchedules)
       setAvailableTimes(availableSchedules); // Atualiza os horários disponíveis
     }
   };
@@ -330,8 +335,9 @@ export function NewSchedule() {
       <Button onClick={handleOpen} variant="gradient" className="flex items-center gap-3">
         <PlusIcon className="w-5" /> Agendar Consulta
       </Button>
-
+      
       <Dialog size="sm" open={open} handler={handleOpen}>
+      <DialogBody className="space-y-4 max-h-[500px] overflow-y-auto">
         <DialogHeader className="relative">
           <Typography variant="h4" color="blue-gray">Agendar Consulta</Typography>
           <IconButton
@@ -343,10 +349,41 @@ export function NewSchedule() {
             <XMarkIcon className="h-4 w-4 stroke-2" />
           </IconButton>
         </DialogHeader>
+        <div className="w-full flex items-center justify-center p-5">
+          <div className="w-96 flex flex-col gap-2 justify-center">
+            <Typography variant="small" color="gray">Cliente:</Typography>
+              <div className="flex items-center gap-2">
+                <input
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  type="text"
+                  placeholder="Pesquisar cliente"
+                  className="w-full bg-white border border-gray-300 rounded-md p-2"
+                />
+                <button onClick={handleClientSearch}>
+                  <MagnifyingGlassIcon className="h-11 w-11 text-white bg-blue-600 cursor-pointer hover:bg-blue-700 p-2 rounded" />
+                </button>
+            </div>
+            <select
+              name="id_client"
+              value={formData.id_client}
+              onChange={(e) => handleClientSelect(e.target.value)}
+              required
+              className="w-full bg-white border border-gray-300 rounded-md p-2"
+            >
+              <option value="">Selecione um cliente</option>
+              {clients.map((client) => (
+                <option key={client.id} value={client.id}>
+                  {client.name} - {client.whatsapp}
+                </option>
+              ))}
+            </select>
 
-        <form onSubmit={handleSubmit}>
+          </div>
+        </div>
+        {formData.id_client && (
+          <form onSubmit={handleSubmit}>
           <DialogBody className="space-y-4">
-            <Typography variant="small" color="gray">Médico:</Typography>
+            <Typography variant="small" color="gray">Médico:</Typography>         
             <select
               name="id_doctor"
               value={formData.id_doctor}
@@ -361,7 +398,6 @@ export function NewSchedule() {
                 </option>
               ))}
             </select>
-
             {doctorSpecialties.length > 0 && (
               <>
                 <Typography variant="small" color="gray">Especialidade:</Typography>
@@ -524,7 +560,10 @@ export function NewSchedule() {
             </Button>
           </DialogFooter>
         </form>
+        )}   
+        </DialogBody>
       </Dialog>
+      
     </div>
   );
 }
