@@ -128,8 +128,7 @@ const handleClientSearch = async () => {
         method: "GET",
         filters: {
           doctor_id: `eq.${doctorId}`,
-          specialty: `eq.${specialty}`
-          /*status: `neq."Desistência"`,*/ 
+          specialty: `eq.${specialty}`,
         },
       });
       return response; // Retorna os horários já agendados
@@ -150,8 +149,8 @@ const handleClientSearch = async () => {
         method: "GET",
         filters: {
           id_doctor: `eq.${doctorId}`,
-          date: `eq.${date}`
-          /*status: `neq."Desistência"`,*/ 
+          date: `eq.${date}`,
+          status: `eq.Agendado`,
         },
       });
       return response; // Retorna os horários já agendados
@@ -184,11 +183,15 @@ const handleClientSearch = async () => {
   };
   useEffect(() => {
     if (formData.id_doctor && formData.specialty && dayOfWeek !== null) {
-      fetchDoctorSchedules(formData.id_doctor, formData.specialty, dayOfWeek);
+      fetchDoctorSchedules(formData.id_doctor, formData.specialty, dayOfWeek)
+        .then((response) => setRegisteredTimes(response || []))
+        .catch(() => setRegisteredTimes([])); // Garantir que seja limpo em caso de erro
     }
-  }, [formData.id_doctor, formData.specialty, dayOfWeek]); // Chama quando id_doctor ou specialty mudarem
+  }, [formData.id_doctor, formData.specialty, dayOfWeek]);
+  ; // Chama quando id_doctor ou specialty mudarem
   // Função para verificar se o horário está disponível
   const checkIfTimeIsAvailable = async (doctorId, specialty, date, time) => {
+
     try {
       const response = await supabaseRequest({
         table: "appointments",
@@ -198,6 +201,7 @@ const handleClientSearch = async () => {
           specialty: `eq.${specialty}`,
           date: `eq.${date}`,
           appointment_time: `eq.${time}`,
+          status: `eq.Agendado`,
         },
       });
 
@@ -218,6 +222,7 @@ const handleClientSearch = async () => {
     setDoctorSpecialties([]); // Limpar especialidades
     setIsLoading(true);
     setAvailableTimesGeneral([]);
+    setRegisteredTimes([]);
 
     // Buscar especialidades do médico
     await fetchDoctorSpecialties(doctorId);
@@ -227,6 +232,7 @@ const handleClientSearch = async () => {
 
   // Função para manipular a seleção de uma especialidade
   const handleSpecialtySelect = async (specialty) => {
+    setRegisteredTimes([]);
     setFormData((prevData) => ({
       ...prevData,
       specialty: specialty,
@@ -248,13 +254,14 @@ const handleClientSearch = async () => {
         formData.id_doctor,
         specialty
       );
-      setTeste(doctorSchedules)
       setAvailableTimes(availableSchedules); // Atualiza os horários disponíveis
     }
   };
 
   // Função para manipular a mudança da data
   const handleDateChange = async (e) => {
+
+    console.log('entrei aqui')
     const selectedDate = e.target.value; // Data no formato yyyy-MM-dd
     const dateObject = new Date(`${selectedDate}T00:00:00`);
     const dayOfWeek = dateObject.getDay();
@@ -266,6 +273,7 @@ const handleClientSearch = async () => {
       ...prevData,
       date: selectedDate,
     }));
+    setRegisteredTimes('');
   
     // Busca horários disponíveis, se houver especialidade selecionada
     if (formData.specialty) {
@@ -318,6 +326,7 @@ const handleClientSearch = async () => {
         specialty: "",
       });
       setAvailableTimes([]); // Limpar horários disponíveis
+      setAvailableTimesGeneral([])
     } catch (error) {
       console.error("Erro ao inserir o agendamento:", error.message);
       alert("Erro ao realizar o agendamento. Tente novamente.");
@@ -535,7 +544,7 @@ const handleClientSearch = async () => {
                   </option>
                 ))
               ) : (
-                <option value="09:00" disabled>Não há horários disponíveis</option>
+                <option disabled>Não há horários disponíveis</option>
               )}
             </select>
             
