@@ -352,8 +352,9 @@ export function NewSchedule() {
               value={formData.id_doctor}
               onChange={(e) => handleDoctorSelect(e.target.value)}
               required
+              className="w-full bg-white border border-gray-300 rounded-md p-2"
             >
-              <option value="">Selecione um médico</option>
+              <option value=""  className="w-full bg-white border border-gray-300 rounded-md p-2">Selecione um médico</option>
               {doctors.map((doctor) => (
                 <option key={doctor.id} value={doctor.id}>
                   {doctor.first_name} {doctor.last_name}
@@ -369,8 +370,9 @@ export function NewSchedule() {
                   value={formData.specialty}
                   onChange={(e) => handleSpecialtySelect(e.target.value)}
                   required
+                  className="w-full bg-white border border-gray-300 rounded-md p-2"
                 >
-                  <option value="">Selecione uma especialidade</option>
+                  <option value="" className="w-full bg-white border border-gray-300 rounded-md p-2">Selecione uma especialidade</option>
                   {doctorSpecialties.map((specialty) => (
                     <option key={specialty.id} value={specialty.specialty}>
                       {specialty.specialty}
@@ -488,8 +490,9 @@ export function NewSchedule() {
               value={formData.appointment_time}
               onChange={handleTimeChange}
               required
+              className="w-full bg-white border border-gray-300 rounded-md p-2"
             >
-              <option value="">Selecione o horário</option>
+              <option value="" className="w-full bg-white border border-gray-300 rounded-md p-2">Selecione o horário</option>
               {registeredTimes.length > 0 ? (
                 registeredTimes.map((time) => (
                   <option key={time.doctor_id} value={time.schedule_time}>
