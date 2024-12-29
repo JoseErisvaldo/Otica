@@ -6,6 +6,8 @@ import Clients from "./pages/Admin/Clients";
 import DetailsClient from "./pages/Admin/DetailsClient";
 import Doctor from "./pages/Admin/Doctor";
 import DoctorDetails from "./pages/Admin/Doctor/DoctorDetails";
+import Suppliers from "./pages/Admin/Suppliers";
+import DetailsSupplier from "./pages/Admin/Suppliers/DetailsSupplier";
 
 
 
@@ -20,7 +22,9 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/detalhescliente/:id" element={<DetailsClient />} />
         <Route path="/admin/medico" element={<Doctor />} />
         <Route path="/admin/detalhesmedico/:id" element={<DoctorDetails />} />
-        
+        <Route path="/admin/suppliers" element={<Suppliers />} />
+        <Route path="/admin/detailsSupplier/:id" element={<DetailsSupplier />} />
+          
         
       </Routes>
     </BrowserRouter>

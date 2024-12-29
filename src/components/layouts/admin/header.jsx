@@ -126,7 +126,13 @@ const navListItems = [
     label: "Médico",
     icon: UserCircleIcon,
     link: '/admin/medico'
+  },
+  {
+    label: "Fornecedores",
+    icon: UserCircleIcon,
+    link: '/admin/suppliers'
   }
+  
 ];
  
 function NavList() {
