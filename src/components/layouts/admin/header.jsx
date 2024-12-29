@@ -113,11 +113,6 @@ const navListItems = [
     link: '/admin/home'
   },
   {
-    label: "Categoria",
-    icon: UserCircleIcon,
-    link: '/admin/categoria'
-  },
-  {
     label: "Clientes",
     icon: UserCircleIcon,
     link: '/admin/clientes'
@@ -131,6 +126,11 @@ const navListItems = [
     label: "Fornecedores",
     icon: UserCircleIcon,
     link: '/admin/suppliers'
+  },
+  {
+    label: "Produtos",
+    icon: UserCircleIcon,
+    link: '/admin/products'
   }
   
 ];
