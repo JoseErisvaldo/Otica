@@ -11,6 +11,7 @@ import DetailsSupplier from "./pages/Admin/Suppliers/DetailsSupplier";
 import Products from "./pages/Admin/Products";
 import ProductDetails from "./pages/Admin/Products/ProductsDetails";
 import EditProduct from "./pages/Admin/Products/EditPProduct";
+import AppointmentsProducts from "./pages/Admin/AppointmentsProducts";
 
 
 
@@ -29,7 +30,9 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/products" element={<Products />} />
         <Route path="/admin/productsdetails/:id" element={<ProductDetails />} />
         <Route path="/admin/editproduct/:id" element={<EditProduct />} />
-        
+
+        <Route path="/admin/appointmentsProducts" element={<AppointmentsProducts />} />
+
       </Routes>
     </BrowserRouter>
   );

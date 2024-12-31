@@ -131,7 +131,12 @@ const navListItems = [
     label: "Produtos",
     icon: UserCircleIcon,
     link: '/admin/products'
-  }
+  },
+  {
+    label: "Agendamentos",
+    icon: UserCircleIcon,
+    link: '/admin/appointmentsProducts'
+  },
   
 ];
  
