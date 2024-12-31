@@ -18,8 +18,13 @@ const supabaseRequest = async ({
   filters = {},
   limit = 500000,
   offset = 0,
+  orderBy = null, // Coluna de ordenação, opcional
+  ascending = true, // Direção da ordenação, por padrão é ascendente
 }) => {
   try {
+    // Se `orderBy` não for fornecido, não adiciona a ordenação
+    const orderQuery = orderBy ? `&order=${orderBy}.${ascending ? 'asc' : 'desc'}` : '';
+
     // Construção da query string a partir dos filtros
     const filterQuery = Object.entries(filters)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
@@ -27,7 +32,7 @@ const supabaseRequest = async ({
 
     // Adiciona suporte a paginação na query string
     const paginationQuery = `limit=${limit}&offset=${offset}`;
-    const queryString = [filterQuery, paginationQuery].filter(Boolean).join('&');
+    const queryString = [filterQuery, paginationQuery, orderQuery].filter(Boolean).join('&');
 
     // Define a URL completa
     const url = queryString ? `${table}?${queryString}` : table;
@@ -50,5 +55,7 @@ const supabaseRequest = async ({
     throw error;
   }
 };
+
+
 
 export default supabaseRequest;
