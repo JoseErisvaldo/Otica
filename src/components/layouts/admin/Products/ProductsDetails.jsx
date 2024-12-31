@@ -103,7 +103,7 @@ export default function ProductsDetails() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-3xl font-bold">R$ {discounted_price.toFixed(2)}</div>
+            <div className="text-3xl font-bold"> R$ {discounted_price ? discounted_price.toFixed(2) : "0.00"}</div>
             <p className="text-sm text-muted-foreground">com {product_discount_percentage}% de desconto</p>
             <p className="text-sm">ou R$ {product_price.toFixed(2)} em até 12x de R$ {(product_price / 12).toFixed(2)} sem juros no cartão</p>
           </div>

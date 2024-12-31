@@ -19,7 +19,6 @@ export default function NewProduct() {
   const [productData, setProductData] = useState({
     name: "",
     brand: "",
-    price: "",
     material: "",
     suppliers: "",
     ean: ""
@@ -65,7 +64,6 @@ export default function NewProduct() {
       setProductData({
         name: "",
         brand: "",
-        price: "",
         material: "",
         suppliers: "",
         ean: ""
@@ -144,20 +142,6 @@ export default function NewProduct() {
                 </Option>
               ))}
             </Select>
-          </div>
-          <div>
-            <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">
-              Preço
-            </Typography>
-            <Input
-              color="gray"
-              size="lg"
-              placeholder="Preço"
-              type="number"
-              name="price"
-              value={productData.price}
-              onChange={handleChange}
-            />
           </div>
           <div>
             <Typography variant="small" color="blue-gray" className="mb-2 text-left font-medium">

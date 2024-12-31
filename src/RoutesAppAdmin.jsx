@@ -10,6 +10,7 @@ import Suppliers from "./pages/Admin/Suppliers";
 import DetailsSupplier from "./pages/Admin/Suppliers/DetailsSupplier";
 import Products from "./pages/Admin/Products";
 import ProductDetails from "./pages/Admin/Products/ProductsDetails";
+import EditProduct from "./pages/Admin/Products/EditPProduct";
 
 
 
@@ -27,6 +28,7 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/detailsSupplier/:id" element={<DetailsSupplier />} />
         <Route path="/admin/products" element={<Products />} />
         <Route path="/admin/productsdetails/:id" element={<ProductDetails />} />
+        <Route path="/admin/editproduct/:id" element={<EditProduct />} />
         
       </Routes>
     </BrowserRouter>
