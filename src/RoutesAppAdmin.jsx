@@ -12,6 +12,7 @@ import Products from "./pages/Admin/Products";
 import ProductDetails from "./pages/Admin/Products/ProductsDetails";
 import EditProduct from "./pages/Admin/Products/EditPProduct";
 import AppointmentsProducts from "./pages/Admin/AppointmentsProducts";
+import AppointmentsProductsDetails from "./pages/Admin/AppointmentsProducts/AppointmentsProductsDetails";
 
 
 
@@ -32,6 +33,7 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/editproduct/:id" element={<EditProduct />} />
 
         <Route path="/admin/appointmentsProducts" element={<AppointmentsProducts />} />
+        <Route path="/admin/detailsappointmentsproducts/:id" element={<AppointmentsProductsDetails />} />
 
       </Routes>
     </BrowserRouter>

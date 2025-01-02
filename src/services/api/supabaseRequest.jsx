@@ -20,22 +20,31 @@ const supabaseRequest = async ({
   offset = 0,
   orderBy = null, // Coluna de ordenação, opcional
   ascending = true, // Direção da ordenação, por padrão é ascendente
+  functionName = null, // Nome da função para chamadas RPC
 }) => {
   try {
-    // Se `orderBy` não for fornecido, não adiciona a ordenação
-    const orderQuery = orderBy ? `&order=${orderBy}.${ascending ? 'asc' : 'desc'}` : '';
-
     // Construção da query string a partir dos filtros
     const filterQuery = Object.entries(filters)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join('&');
 
-    // Adiciona suporte a paginação na query string
-    const paginationQuery = `limit=${limit}&offset=${offset}`;
-    const queryString = [filterQuery, paginationQuery, orderQuery].filter(Boolean).join('&');
+    // Adiciona suporte a paginação e ordenação se não for uma chamada RPC
+    const paginationQuery = table !== "rpc" ? `limit=${limit}&offset=${offset}` : '';
+    const orderQuery =
+      table !== "rpc" && orderBy
+        ? `&order=${orderBy}.${ascending ? 'asc' : 'desc'}`
+        : '';
+
+    const queryString = [filterQuery, paginationQuery, orderQuery]
+      .filter(Boolean)
+      .join('&');
 
     // Define a URL completa
-    const url = queryString ? `${table}?${queryString}` : table;
+    const url = table === "rpc"
+      ? `rpc/${functionName}`
+      : queryString
+      ? `${table}?${queryString}`
+      : table;
 
     // Chama a API
     const response = await axiosInstance({
@@ -55,7 +64,5 @@ const supabaseRequest = async ({
     throw error;
   }
 };
-
-
 
 export default supabaseRequest;
