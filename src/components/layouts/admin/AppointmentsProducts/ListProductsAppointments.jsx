@@ -12,11 +12,10 @@ export default function ListProductsAppointments({id_suppliers}) {
 
   const fetchProducts = async () => {
     try {
-      // Fetch data from the new view (view_products_details)
       const productsData = await supabaseRequest({
         table: "get_suppier_stock",
         method: "POST",
-        filters: { supplier_id: `eq.${id_suppliers}` }, // Substitua 'id' pelo ID do produto que deseja buscar, se necessid_suppliers
+        filters: { supplier_id: `eq.${id_suppliers}` },
       });
       console.log(productsData);
       setProducts(productsData);
@@ -107,7 +106,7 @@ export default function ListProductsAppointments({id_suppliers}) {
                     <span className="font-bold">Desconto:</span> {product_discount_percentage}% 
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Valor com desconto:</span> {discounted_price}
+                    <span className="font-bold">Valor com desco nto:</span> {discounted_price}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
                     <span className="font-bold">Cor:</span> {color_name || "N/A"}
