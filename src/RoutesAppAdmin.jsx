@@ -13,8 +13,7 @@ import ProductDetails from "./pages/Admin/Products/ProductsDetails";
 import EditProduct from "./pages/Admin/Products/EditPProduct";
 import AppointmentsProducts from "./pages/Admin/AppointmentsProducts";
 import AppointmentsProductsDetails from "./pages/Admin/AppointmentsProducts/AppointmentsProductsDetails";
-
-
+import CompleteOrder from "./pages/Admin/AppointmentsProducts/CompleteOrder";
 
 export default function RoutesAppAdmin() {
   return (
@@ -34,6 +33,7 @@ export default function RoutesAppAdmin() {
 
         <Route path="/admin/appointmentsProducts" element={<AppointmentsProducts />} />
         <Route path="/admin/detailsappointmentsproducts/:id" element={<AppointmentsProductsDetails />} />
+        <Route path="/admin/completeorder" element={<CompleteOrder />} />
 
       </Routes>
     </BrowserRouter>
