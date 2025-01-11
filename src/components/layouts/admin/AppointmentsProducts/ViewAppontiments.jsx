@@ -47,9 +47,9 @@ export default function ViewAppointmentsProducts() {
               }) => (
                 <div
                   key={appointment_product_id}
-                  className="flex items-center justify-between pb-3 pt-3 last:pb-0"
+                  className=" flex flex-col justify-center items-center gap-3 sm:grid sm:grid-cols-2  pb-3 pt-3 last:pb-0"
                 >
-                  <div className="w-full flex flex-col sm:flex-row items-center gap-x-3">
+                  <div className=" flex flex-col sm:flex-row items-center gap-x-3">
                     <Typography color="blue-gray">
                       <span className="font-semibold">Data:</span> {new Date(appointment_product_created_at).toLocaleDateString("pt-BR")}
                     </Typography>
@@ -57,19 +57,18 @@ export default function ViewAppointmentsProducts() {
                       <span className="font-semibold">Agedamento:</span> {appointment_product_id}
                     </Typography>
                     <Typography color="blue-gray">
-                    <span className="font-semibold">Fornecedor:</span> {suppliers}
+                      <span className="font-semibold">Fornecedor:</span> {suppliers}
                     </Typography>
-                    <Typography color="blue-gray">
-                    <span className="font-semibold">Status:</span> {status_name}
+                    <Typography color="blue-gray" className="flex items-center gap-2">
+                      <span className="font-semibold">Status:</span> <div className={` ${status_name === "Aberto" ? "text-green-500" : "text-red-500"}` }  >{status_name}</div> 
                     </Typography>
-                  </div>
-                  <div className="flex gap-3">
+                  </div>  
+                  <div className="flex justify-end gap-3">
                     <Link to={`/admin/detailsappointmentsproducts/${appointment_product_id}`}>
-                      <Button>
+                      <Button color="blue">
                         <EyeIcon className="h-6 w-6 text-white" />
                       </Button>
                     </Link>
-                    <Button>Editar</Button>
                   </div>
                 </div>
               )
