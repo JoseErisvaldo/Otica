@@ -71,7 +71,7 @@ export default function ViewAppointmentsProducts() {
                         </Button>
                       </Link>
                     )}
-                    <Link to={`/admin/editappointmentsproducts/${appointment_product_id}`}>
+                    <Link to={`/admin/viewpppointmentproducts/${appointment_product_id}`}>
                       <Button color="blue">
                         <EyeIcon className="h-6 w-6 text-white" />
                       </Button>

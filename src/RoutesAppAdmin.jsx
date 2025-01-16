@@ -14,6 +14,7 @@ import EditProduct from "./pages/Admin/Products/EditPProduct";
 import AppointmentsProducts from "./pages/Admin/AppointmentsProducts";
 import AppointmentsProductsDetails from "./pages/Admin/AppointmentsProducts/AppointmentsProductsDetails";
 import CompleteOrder from "./pages/Admin/AppointmentsProducts/CompleteOrder";
+import ViewAppointmentProducts from "./pages/Admin/AppointmentsProducts/ViewAppointmentProducts";
 
 export default function RoutesAppAdmin() {
   return (
@@ -34,6 +35,7 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/appointmentsProducts" element={<AppointmentsProducts />} />
         <Route path="/admin/detailsappointmentsproducts/:id" element={<AppointmentsProductsDetails />} />
         <Route path="/admin/completeorder" element={<CompleteOrder />} />
+        <Route path="/admin/viewpppointmentproducts/:id" element={<ViewAppointmentProducts />} />
 
       </Routes>
     </BrowserRouter>
