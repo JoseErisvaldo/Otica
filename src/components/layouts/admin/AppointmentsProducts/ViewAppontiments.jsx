@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 
@@ -64,7 +64,14 @@ export default function ViewAppointmentsProducts() {
                     </Typography>
                   </div>  
                   <div className="flex justify-end gap-3">
-                    <Link to={`/admin/detailsappointmentsproducts/${appointment_product_id}`}>
+                    {status_name === "Aberto" && (
+                      <Link to={`/admin/detailsappointmentsproducts/${appointment_product_id}`}>
+                        <Button color="green">
+                          <PencilSquareIcon class="h-6 w-6 text-white" />
+                        </Button>
+                      </Link>
+                    )}
+                    <Link to={`/admin/editappointmentsproducts/${appointment_product_id}`}>
                       <Button color="blue">
                         <EyeIcon className="h-6 w-6 text-white" />
                       </Button>
