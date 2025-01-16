@@ -26,7 +26,10 @@ export default function DetailsAppointmentsProducts({ id }) {
       const appointmentProductData = await supabaseRequest({
         table: "view_products_details",
         method: "GET",
-        filters: { id_suppliers: `eq.${supplierId}` },
+        filters: { 
+          id_suppliers: `eq.${supplierId}`,
+          registration_status: `eq.Cadastro realizado`
+      },
       });
       setProducts(appointmentProductData);
     } catch (error) {
