@@ -57,14 +57,18 @@ export default function ViewProducts() {
                 supplier_name,
                 product_brand_name,
                 color_name,
-                ean
+                ean,
+                registration_status,
+                name_status_product
               }) => (
                 <div
                   key={key_products_view}
                   className="border rounded-lg p-4 flex flex-col items-center shadow-md hover:shadow-lg transition-shadow"
                 >
                   {/* Exibe a foto do produto */}
-                  {product_photo_url && (
+                  <Typography color="blue-gray" className="w-full mb-1 flex justify-end ">
+                    <span className={name_status_product === 'Pendente' ? 'bg-red-600 font-bold text-white px-2 py-1 rounded' : 'bg-green-600 font-bold text-white p-1 rounded'}> {name_status_product || ""}</span>
+                  </Typography>
                     <Avatar
                       src={product_photo_url}
                       alt={product_name}
@@ -72,7 +76,7 @@ export default function ViewProducts() {
                       variant="rounded"
                       className="mb-4"
                     />
-                  )}
+                  
                   <Typography
                     color="blue-gray"
                     variant="h6"
@@ -81,13 +85,13 @@ export default function ViewProducts() {
                     {product_name}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">EAN:</span> {ean || "N/A"}
+                    <span className="font-bold">EAN:</span> {ean || ""}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Classificação:</span> {classification || "N/A"}
+                    <span className="font-bold">Classificação:</span> {classification || ""}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Gênero:</span> {gender || "N/A"}
+                    <span className="font-bold">Gênero:</span> {gender || ""}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
                     <span className="font-bold">Preço:</span> <span className="">R$ {product_price.toFixed(2)}</span>
@@ -99,33 +103,41 @@ export default function ViewProducts() {
                     <span className="font-bold">Valor com desconto:</span> {discounted_price}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Cor:</span> {color_name || "N/A"}
+                    <span className="font-bold">Cor:</span> {color_name || ""}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Material:</span> {product_material || "N/A"}
+                    <span className="font-bold">Material:</span> {product_material || ""}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Marca:</span> {product_brand_name || "N/A"}
+                    <span className="font-bold">Marca:</span> {product_brand_name || ""}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
                     <span className="font-bold">Quantidade em Estoque:</span> {product_quantity_in_stock}
                   </Typography>
                   <Typography color="blue-gray" className="mb-1">
-                    <span className="font-bold">Fornecedor:</span> {supplier_name || "N/A"}
+                    <span className="font-bold">Fornecedor:</span> {supplier_name || ""}
                   </Typography>
-                  <div className="flex flex-col items-center gap-2 w-full justify-center">
-                    <Link to={`/admin/productsdetails/${key_products_view}`}>
-                      <Button color="green" className="flex items-center gap-2">
-                        <EyeIcon className="h-5 w-5 text-white" />
-                        Comprar
-                      </Button>
-                    </Link>
-                    <Link to={`/admin/editproduct/${key_products_view}`}>
+                  <Typography color="blue-gray" className="mb-1">
+                  <span className={registration_status === 'Cadastro pendente' ? 'text-red-600 font-bold' : 'text-green-600 font-bold'}> {registration_status || ""}</span>
+                  </Typography>
+              
+                  
+                  <div className="flex flex-row justify-between gap-2 w-full justify-center">
+                  <Link to={`/admin/editproduct/${key_products_view}`}>
                       <Button color="blue" className="flex items-center gap-2">
-                        <PencilSquareIcon className="h-5 w-5 text-white" />
+                        <PencilSquareIcon className="h-3 w-3 text-white" />
                         Editar
                       </Button>
                     </Link>
+                  {registration_status !== 'Cadastro pendente' && (
+                    <Link to={`/admin/productsdetails/${key_products_view}`}>
+                      <Button color="green" className="flex items-center gap-2">
+                        <EyeIcon className="h-3 w-3 text-white" />
+                        Comprar
+                      </Button>
+                    </Link>
+                    )}
+                    
                   </div>
                 </div>
               )
