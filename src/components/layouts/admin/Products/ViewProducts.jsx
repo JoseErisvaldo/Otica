@@ -63,7 +63,7 @@ export default function ViewProducts() {
               }) => (
                 <div
                   key={key_products_view}
-                  className="border rounded-lg p-4 flex flex-col items-center shadow-md hover:shadow-lg transition-shadow"
+                  className="border rounded-lg p-4 flex flex-col items-center  hover:shadow-lg transition-shadow"
                 >
                   {/* Exibe a foto do produto */}
                   <Typography color="blue-gray" className="w-full mb-1 flex justify-end ">

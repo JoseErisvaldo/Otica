@@ -34,7 +34,7 @@ export default function ViewStockMovements () {
                     {stockMovements.map(({created_at, photo, id_movement, ean, name_products, colors_name, name_suppliers,name_type_movement,previous_quantity,moved_quantity,current_quantity}) => (
                         <div
                             key={id_movement}
-                            className="flex items-center flex-row gap-5 p-5 bg-gray-50 border-b border-gray-200 last:pb-0"
+                            className="border rounded-lg p-4 flex flex-col items-center  hover:shadow-lg transition-shadow"
                         >
                             <div>
                                 <div className="flex flex-row items-center gap-2 justify-between">
