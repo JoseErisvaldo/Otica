@@ -77,9 +77,10 @@ export default function ViewAppointmentProductsDetails({id}) {
                                     <div className="text-lg font-bold">{item.product_name}</div>
                                 </div>
                                 <div className="mb-3">
-                                    <p><span className="font-semibold">ID do Produto:</span> {item.product_id}</p>
+                                    <p><span className="font-semibold">EAN:</span> {item.ean}</p>
                                     <p><span className="font-semibold">Marca:</span> {item.product_brand_name}</p>
                                     <p><span className="font-semibold">Material:</span> {item.product_material}</p>
+                                    <p><span className="font-semibold">Cor:</span> {item.color_name}</p>
                                 </div>
                                 <div className="mb-3">
                                     <p><span className="font-semibold">Preço de Compra:</span> {FormatPrice({ value: item.purchase_price })} </p>

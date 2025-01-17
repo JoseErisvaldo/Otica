@@ -137,6 +137,11 @@ const navListItems = [
     icon: UserCircleIcon,
     link: '/admin/appointmentsProducts'
   },
+  {
+    label: "Movimentos do estoque",
+    icon: UserCircleIcon,
+    link: '/admin/stockmovements'
+  },
   
 ];
  
