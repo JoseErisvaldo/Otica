@@ -16,6 +16,7 @@ import AppointmentsProductsDetails from "./pages/Admin/AppointmentsProducts/Appo
 import CompleteOrder from "./pages/Admin/AppointmentsProducts/CompleteOrder";
 import ViewAppointmentProducts from "./pages/Admin/AppointmentsProducts/ViewAppointmentProducts";
 import StockMovements from "./pages/Admin/StockMovements";
+import CheckoutProducts from "./pages/Admin/CheckoutProducts";
 
 export default function RoutesAppAdmin() {
   return (
@@ -39,6 +40,8 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/viewpppointmentproducts/:id" element={<ViewAppointmentProducts />} />
 
         <Route path="/admin/stockmovements" element={<StockMovements />} />
+
+        <Route path="/admin/checkout" element={<CheckoutProducts />} /> 
       </Routes> 
     </BrowserRouter>
   );
