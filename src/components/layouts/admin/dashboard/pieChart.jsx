@@ -46,7 +46,7 @@ export default function PieChart() {
       >
         <div>
           <Typography variant="h6" color="blue-gray">
-            Visualize seus agendamentos por tipo de corte
+            Visualize seus agendamentos por tipo de consulta
           </Typography>
           <Typography
             variant="small"
