@@ -1,4 +1,4 @@
-import { MinimumStock } from "../../../components/layouts/admin/StockProducts/MinimumStock";
+import { Stock } from "../../../components/layouts/admin/StockProducts/Stock";
 import LayoutAdmin from "../../../layouts/Admin";
 
 export default function StockProducts () { 
@@ -8,7 +8,7 @@ export default function StockProducts () {
         teste
       </div>
       <div>
-        <MinimumStock />
+        <Stock />
       </div>
     </LayoutAdmin>
   )
