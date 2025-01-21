@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Admin/Home";
-import { ComplexNavbar } from "./components/layouts/admin/header";
 import CategoryOfCuts from "./pages/Admin/Products";
 import Clients from "./pages/Admin/Clients";
 import DetailsClient from "./pages/Admin/DetailsClient";
@@ -17,11 +16,13 @@ import CompleteOrder from "./pages/Admin/AppointmentsProducts/CompleteOrder";
 import ViewAppointmentProducts from "./pages/Admin/AppointmentsProducts/ViewAppointmentProducts";
 import StockMovements from "./pages/Admin/StockMovements";
 import CheckoutProducts from "./pages/Admin/CheckoutProducts";
+import { SidebarWithLogo } from "./components/layouts/admin/SidebarWithLogo";
 
 export default function RoutesAppAdmin() {
   return (
     <BrowserRouter>
-    <ComplexNavbar/>
+    <div className="w-full flex flex-col gap-3">
+    <SidebarWithLogo/>
       <Routes>
         <Route path="/admin/home" element={<Home />} />
         <Route path="/admin/clientes" element={<Clients />} />
@@ -43,6 +44,7 @@ export default function RoutesAppAdmin() {
 
         <Route path="/admin/checkout" element={<CheckoutProducts />} /> 
       </Routes> 
+      </div>
     </BrowserRouter>
   );
 }
