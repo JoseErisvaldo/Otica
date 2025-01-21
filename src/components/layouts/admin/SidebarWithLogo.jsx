@@ -33,6 +33,7 @@ const navListItems = [
   { label: "Produtos", icon: UserCircleIcon, link: "/admin/products" },
   { label: "Agendamentos", icon: UserCircleIcon, link: "/admin/appointmentsProducts" },
   { label: "Movimentos do estoque", icon: UserCircleIcon, link: "/admin/stockmovements" },
+  { label: "Estoque minimo", icon: UserCircleIcon, link: "/admin/stockproducts" },
 ];
 
 const profileMenuItems = [

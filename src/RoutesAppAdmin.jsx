@@ -17,6 +17,7 @@ import ViewAppointmentProducts from "./pages/Admin/AppointmentsProducts/ViewAppo
 import StockMovements from "./pages/Admin/StockMovements";
 import CheckoutProducts from "./pages/Admin/CheckoutProducts";
 import { SidebarWithLogo } from "./components/layouts/admin/SidebarWithLogo";
+import StockProducts from "./pages/Admin/StockProducts";
 
 export default function RoutesAppAdmin() {
   return (
@@ -43,6 +44,8 @@ export default function RoutesAppAdmin() {
         <Route path="/admin/stockmovements" element={<StockMovements />} />
 
         <Route path="/admin/checkout" element={<CheckoutProducts />} /> 
+
+        <Route path="/admin/stockproducts" element={<StockProducts />} />
       </Routes> 
       </div>
     </BrowserRouter>
