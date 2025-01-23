@@ -7,6 +7,7 @@ import supabase from "../../../services/supabase";
 import { ListAppointment } from "../../../components/layouts/admin/Appointments/listAppointment";
 import { NewSchedule } from "../../../components/layouts/admin/Appointments/newSchedule";
 import { Appointments } from "../../../components/layouts/admin/Appointments/appointments";
+import StackedBarChart from "../../../components/layouts/admin/dashboard/Appointments/AppointmentMonthDoctor";
 
 export default function Home() {
   const [appointmentNextDay, setAppointmentNextDay] = useState([]);
@@ -82,6 +83,7 @@ export default function Home() {
           <div>
             <PieChart />
           </div>
+          <StackedBarChart />
         </div>
       </div>
     </LayoutAdmin>

@@ -16,15 +16,20 @@ import CompleteOrder from "./pages/Admin/AppointmentsProducts/CompleteOrder";
 import ViewAppointmentProducts from "./pages/Admin/AppointmentsProducts/ViewAppointmentProducts";
 import StockMovements from "./pages/Admin/StockMovements";
 import CheckoutProducts from "./pages/Admin/CheckoutProducts";
-import { SidebarWithLogo } from "./components/layouts/admin/SidebarWithLogo";
 import StockProducts from "./pages/Admin/StockProducts";
+import Sidebar from "./components/layouts/admin/Sidebar";
+import Dashboard from "./pages/Admin/Dashboard";
+import LayoutAdmin from "./layouts/Admin";
 
 export default function RoutesAppAdmin() {
   return (
     <BrowserRouter>
-    <div className="w-full flex flex-col gap-3">
-    <SidebarWithLogo/>
+    <Sidebar/>
+    <div className="flex  p-4 md:ml-64">
+    <LayoutAdmin >
+      
       <Routes>
+        <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/home" element={<Home />} />
         <Route path="/admin/clientes" element={<Clients />} />
         <Route path="/admin/detalhescliente/:id" element={<DetailsClient />} />
@@ -47,6 +52,7 @@ export default function RoutesAppAdmin() {
 
         <Route path="/admin/stockproducts" element={<StockProducts />} />
       </Routes> 
+      </LayoutAdmin>
       </div>
     </BrowserRouter>
   );
