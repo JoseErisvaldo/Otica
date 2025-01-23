@@ -7,7 +7,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { ClipboardIcon } from "@heroicons/react/24/outline";
 
 export function SeeSchedules({ lens_order_id }) {
   const [open, setOpen] = useState(false);
@@ -43,12 +43,13 @@ export function SeeSchedules({ lens_order_id }) {
 
   return (
     <>
-      <Button onClick={handleOpen} className="flex items-center gap-3" variant="gradient" disabled={isLoading}>
+      <Button onClick={handleOpen} className="flex items-center gap-1" variant="gradient" disabled={isLoading} color="green">
         {isLoading ? "Carregando..." : 
         <span className="">
-          <EyeIcon className="h-5 w-5 text-gray-500" />
+         <ClipboardIcon className="h-6 w-6 text-whiote" />
+
         </span>}
-         Detalehs da consulta
+        consulta
       </Button>
 
       <Dialog open={open} handler={handleOpen}>

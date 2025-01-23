@@ -25,7 +25,7 @@ export function Appointments({ appointments = [], title,message }) {
     setOpen(false);
   };
   return (
-    <Card className="m-6 w-96">
+    <Card className="m-6 w-72">
       <CardBody>
         <Typography variant="h5" color="blue-gray" className="mb-2">
           {title}
@@ -36,7 +36,7 @@ export function Appointments({ appointments = [], title,message }) {
       </CardBody>
       <CardFooter className="pt-0">
         {/* Botão único para abrir o diálogo */}
-        <Button onClick={handleOpenDialog}>
+        <Button onClick={handleOpenDialog} color="blue">
           Ver detalhes
         </Button>
       </CardFooter>
@@ -58,7 +58,7 @@ export function Appointments({ appointments = [], title,message }) {
                     message={`Olá, ${appointment.client_name}, tudo bem ? ${message} ás ${appointment.appointment_time} horas. Esperamos voce !`} 
                   /></p>
                 <p><strong>Status:</strong> {appointment.appointment_status}</p> 
-                <div className="flex gap-3">
+                <div className="w-full flex flex-col gap-3">
                   <p><DetailsSchedules appointment_id={appointment.appointment_id}/></p> 
                   <p><SeeSchedules lens_order_id={appointment.appointment_id}/></p>
                 </div>

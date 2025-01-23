@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter,
   Card,
   CardBody,
   Typography,

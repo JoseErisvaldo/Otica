@@ -12,7 +12,7 @@ import {
   CardBody,
   Typography,
 } from "@material-tailwind/react";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { ClipboardDocumentListIcon, EyeIcon } from "@heroicons/react/24/outline";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import supabase from "../../../../services/supabase";
 
@@ -133,9 +133,10 @@ export function DetailsSchedules({ appointment_id }) {
         onClick={handleOpen}
         variant="gradient"
         className="flex items-center gap-3"
+        color="blue"
       >
-        <EyeIcon className="h-5 w-5 text-gray-500" />
-        Detalhes da agenda
+        <ClipboardDocumentListIcon className="h-6 w-6 text-white" />
+        agenda
       </Button>
       <Dialog open={open} handler={handleOpen}>
         <DialogHeader>Agendamentos</DialogHeader>
