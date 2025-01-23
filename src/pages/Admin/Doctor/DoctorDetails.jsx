@@ -10,7 +10,7 @@ export default function DoctorDetails() {
   const { id } = useParams(); 
 
   return (
-    <LayoutAdmin>
+    <div className="w-full">
       <DetailsDoctor doctor_id={id} />
       <div className="mt-3 flex justify-end">
         <NewSpecialty doctor_id={id}/>
@@ -18,6 +18,6 @@ export default function DoctorDetails() {
       <div>
         <ViewSpecialty doctor_id={id}/>
       </div>
-    </LayoutAdmin>
+    </div>
   );
 }

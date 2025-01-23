@@ -11,7 +11,7 @@ export default function SupplierDetails() {
   const { id } = useParams(); 
 
   return (
-    <LayoutAdmin>
+    <div className="w-full">
         <DetailsSupplier supplier_id={id}/>
         <div className="mt-3 flex justify-end">
             
@@ -19,6 +19,6 @@ export default function SupplierDetails() {
         <div>
             Listar produtos
         </div>
-    </LayoutAdmin>
+    </div>
   );
 }

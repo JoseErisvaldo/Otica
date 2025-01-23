@@ -4,13 +4,13 @@ import ViewSupplier from "../../../components/layouts/admin/Supplers/ViewSupplie
 
 export default function Suppliers () { 
   return(
-    <LayoutAdmin>
+    <div className="w-full">
       <div className="flex justify-end items-end w-full mr-3 gap-3">
         <NewSupplier />
       </div>
       <div>
         <ViewSupplier />
       </div>
-    </LayoutAdmin>
+    </div>
   )
 }

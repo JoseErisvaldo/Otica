@@ -17,7 +17,7 @@ import {
       <div className="w-full">
         <Timeline className="flex-row justify-between flex-wrap">
         
-            <TimelineItem className="h-28">
+            <TimelineItem >
                 <TimelineConnector className="!w-[78px]" />
                 <TimelineHeader className="relative rounded-xl border border-blue-gray-50 bg-gray-400 py-3 pl-4 pr-8 shadow-lg shadow-blue-gray-900/5">
                 <TimelineIcon className="p-3" >

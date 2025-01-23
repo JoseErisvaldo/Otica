@@ -3,6 +3,7 @@ import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import Table, { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../UI/admin/Table";
 
 export function ViewClient() {
   const [customers, setCustomers] = useState([]);
@@ -36,38 +37,39 @@ export function ViewClient() {
             Listar Clientes
           </Typography>
         </div>
-        <div className="divide-y divide-gray-200">
-          {isLoading ? (
-            <Typography>Carregando...</Typography>
-          ) : (
-            customers.map(({id, name, whatsapp, genero }, index) => (
-              <div
-                key={id}
-                className="flex items-center justify-between pb-3 pt-3 last:pb-0"
-              >
-                <div className="flex flex-col sm:flex-row items-center gap-x-3">
-                  <Typography color="blue-gray" variant="h6">
-                    {name}
-                  </Typography>
-                  <Typography color="blue-gray">{whatsapp}</Typography>
-                  <Typography color="blue-gray">{genero}</Typography>
-                </div>
-                <Typography color="blue-gray" variant="h6">
-                  <div className=" flex gap-3">
-                    <Link to={`/admin/detalhescliente/${id}`}>
-                      <Button>
-                        <EyeIcon class="h-6 w-6 text-white" />
-                      </Button>
-                    </Link>
-                    <Button>
-                      Editar
-                    </Button>
-                  </div>
-                </Typography>
-              </div>
-            ))
-          )}
-        </div>
+        {isLoading ? (
+          <Typography>Carregando...</Typography>
+        ) : (
+          <div className="overflow-x-auto">
+               <Table>
+              <TableHead>
+                <TableHeader>Nome</TableHeader>
+                <TableHeader>WhatsApp</TableHeader>
+                <TableHeader>Gênero</TableHeader>
+                <TableHeader className="text-right">Ações</TableHeader>
+              </TableHead>
+              <TableBody>
+                {customers.map(({ id, name, whatsapp, genero }) => (
+                  <TableRow key={id}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{whatsapp}</TableCell>
+                    <TableCell>{genero}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex gap-2 justify-end">
+                        <Link to={`/admin/detalhescliente/${id}`}>
+                          <Button>
+                            <EyeIcon className="h-5 w-5 text-white" />
+                          </Button>
+                        </Link>
+                        <Button>Editar</Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </CardBody>
     </Card>
   );
