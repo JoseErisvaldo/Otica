@@ -16,9 +16,9 @@ import ViewAppointmentProducts from "./pages/Admin/AppointmentsProducts/ViewAppo
 import StockMovements from "./pages/Admin/StockMovements";
 import CheckoutProducts from "./pages/Admin/CheckoutProducts";
 import StockProducts from "./pages/Admin/StockProducts";
-import Sidebar from "./components/layouts/admin/Sidebar";
 import Dashboard from "./pages/Admin/Dashboard";
 import LayoutAdmin from "./layouts/Admin";
+import Sidebar from "./components/layouts/admin/SideBar";
 
 
 export default function RoutesAppAdmin() {
