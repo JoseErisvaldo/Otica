@@ -3,17 +3,26 @@ import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import Table, { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../UI/admin/Table";
+import { Pagination } from "../../../UI/admin/Pagination";
 
 export default function ViewSupplier() {
   const [suppliers, setSuppliers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState();
 
-  const fetchSuppliers = async () => {
+  const fetchSuppliers = async (pageNumber) => {
     try {
+      setLoading(false);
+      const limit = 7;
+      const offset = pageNumber * limit;
       const suppliersData = await supabaseRequest({
         table: "suppliers",
         method: "GET",
-        limit: 30,
+        limit,
+        offset
       });
       setSuppliers(suppliersData);
     } catch (error) {
@@ -24,8 +33,23 @@ export default function ViewSupplier() {
   };
 
   useEffect(() => {
-    fetchSuppliers();
+    fetchSuppliers(currentPage);
   }, []);
+
+  const loadNextPage = () => {
+    console.log("load next page");
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      fetchSuppliers(currentPage + 1);
+    }
+  };
+
+  const loadPreviousPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage - 1);
+      fetchSuppliers(currentPage - 1);
+    }
+  };
 
   return (
     <Card>
@@ -39,32 +63,47 @@ export default function ViewSupplier() {
           {isLoading ? (
             <Typography>Carregando...</Typography>
           ) : (
-            suppliers.map(({ id, name, whatsapp, email, cep, cd }, index) => (
-              <div key={id} className="flex items-center justify-between pb-3 pt-3 last:pb-0">
-                <div className="flex flex-col sm:flex-row items-center gap-x-3">
-                  <Typography color="blue-gray" variant="h6">
-                    {name}
-                  </Typography>
-                  <Typography color="blue-gray">{whatsapp}</Typography>
-                  <Typography color="blue-gray">{email}</Typography>
-                  <Typography color="blue-gray">{cep}</Typography>
-                  <Typography color="blue-gray">{cd}</Typography>
-                </div>
-                <Typography color="blue-gray" variant="h6">
-                  <div className="flex gap-3">
-                    <Link to={`/admin/detailsSupplier/${id}`}>
-                      <Button>
-                        <EyeIcon className="h-6 w-6 text-white" />
-                      </Button>
-                    </Link>
-                    <Button>Editar</Button>
-                  </div>
-                </Typography>
-              </div>
-            ))
+          <Table>
+            <TableHead>
+              <TableHeader>Nome</TableHeader>
+              <TableHeader>Whatsapp</TableHeader>
+              <TableHeader>Email</TableHeader>
+              <TableHeader>CEP</TableHeader>
+              <TableHeader>Filial</TableHeader>
+              <TableHeader className="text-right">Ações</TableHeader>
+            </TableHead>
+            <TableBody>
+              {suppliers.map(({ id, name, whatsapp, email, cep, cd }) => (
+                <TableRow key={id}>
+                  <TableCell>{name}</TableCell>
+                  <TableCell>{whatsapp}</TableCell>
+                  <TableCell>{email}</TableCell>
+                  <TableCell>{cep}</TableCell>
+                  <TableCell>{cd}</TableCell>
+                  <TableCell className="text-right justify-end">
+                    <span>
+                      <Link to={`/admin/detalhescliente/${id}`}>
+                        <Button variant="icon" color="transparent" color="blue">
+                          <EyeIcon className="h-5 w-5 text-white" />
+                        </Button>
+                      </Link>
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
           )}
         </div>
       </CardBody>
+      <div className="mt-3 p-5">
+        <Pagination
+          currentPage={currentPage}
+              totalPages={totalPages}
+              onNextPage={loadNextPage}
+          onPrevPage={loadPreviousPage}
+        />
+      </div>
     </Card>
   );
 }

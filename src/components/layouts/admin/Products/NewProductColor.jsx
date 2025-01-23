@@ -84,7 +84,7 @@ export default function NewProductColor() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="gradient">
+      <Button onClick={handleOpen} variant="gradient" color="white" className="border border-gray-400">
         <div className="flex items-center justify-center gap-3">
 
           Adicionar Cor ao Produto

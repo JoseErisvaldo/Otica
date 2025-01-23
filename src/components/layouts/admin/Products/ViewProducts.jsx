@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
-import { Button, Card, CardBody, Typography, Avatar } from "@material-tailwind/react";
+import { Button, Typography, Avatar } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { Pagination } from "../../../UI/admin/Pagination";
 
 export default function ViewProducts() {
   const [products, setProducts] = useState([]);
-  console.log(products);
   const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState();
 
-  const fetchProducts = async () => {
+
+  const fetchProducts = async (pageNumber) => {
     try {
-      // Fetch data from the new view (view_products_details)
+      setLoading(false);
+      const limit = 4;
+      const offset = pageNumber * limit;
+
       const productsData = await supabaseRequest({
         table: "view_products_details",
         method: "GET",
+        limit,
+        offset
       });
-      console.log(productsData);
+
       setProducts(productsData);
     } catch (error) {
       console.error("Erro ao buscar produtos:", error.message);
@@ -26,21 +35,37 @@ export default function ViewProducts() {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(currentPage);
   }, []);
 
+  const loadNextPage = () => {
+    console.log("load next page");
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      fetchProducts(currentPage + 1);
+    }
+  };
+
+  const loadPreviousPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage - 1);
+      fetchProducts(currentPage - 1);
+    }
+  };
+
   return (
-    <Card>
-      <CardBody>
-        <div className="mb-6">
-          <Typography variant="h4" color="blue-gray" className="text-center">
+    <div>
+    <div>
+      <div>
+        <div className="mb-3">
+          <Typography variant="h4" color="blue-gray" className="text-start">
             Estoque de Produtos
           </Typography>
         </div>
         {isLoading ? (
           <Typography className="text-center">Carregando...</Typography>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className=" w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map(
               ({
                 key_products_view,
@@ -144,7 +169,16 @@ export default function ViewProducts() {
             )}
           </div>
         )}
-      </CardBody>
-    </Card>
+      </div>
+    </div>
+    <div className="mt-3 p-5">
+        <Pagination
+          currentPage={currentPage}
+              totalPages={totalPages}
+              onNextPage={loadNextPage}
+          onPrevPage={loadPreviousPage}
+        />
+      </div>
+    </div>
   );
 }

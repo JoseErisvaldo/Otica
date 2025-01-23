@@ -3,16 +3,26 @@ import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
+import { Pagination } from "../../../UI/admin/Pagination";
 
 export default function ViewAppointmentsProducts() {
   const [appointmentsProducts, setAppointmentsProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState();
 
-  const fetchAppointmentsProducts = async () => {
+  const fetchAppointmentsProducts = async (pageNumber) => {
     try {
+      setLoading(false);
+      const limit = 4
+      const offset = pageNumber * limit;
       const data = await supabaseRequest({
+        
         table: "view_appointment_products",
         method: "GET",
+        limit,
+        offset
       });
       setAppointmentsProducts(data);
     } catch (error) {
@@ -23,8 +33,23 @@ export default function ViewAppointmentsProducts() {
   };
 
   useEffect(() => {
-    fetchAppointmentsProducts();
+    fetchAppointmentsProducts(currentPage);
   }, []);
+
+  const loadNextPage = () => {
+    console.log("load next page");
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      fetchAppointmentsProducts(currentPage + 1);
+    }
+  };
+
+  const loadPreviousPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage - 1);
+      fetchAppointmentsProducts(currentPage - 1);
+    }
+  };
 
   return (
     <Card>
@@ -83,6 +108,14 @@ export default function ViewAppointmentsProducts() {
           )}
         </div>
       </CardBody>
+      <div className="mt-3 p-5">
+        <Pagination
+          currentPage={currentPage}
+              totalPages={totalPages}
+              onNextPage={loadNextPage}
+          onPrevPage={loadPreviousPage}
+        />
+      </div>
     </Card>
   );
 }

@@ -3,18 +3,29 @@ import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import Table, { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../UI/admin/Table";
+import { Pagination } from "../../../UI/admin/Pagination";
 
 export default function ViewDoctor() {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState();
 
-  const fetchDoctors = async () => {
+
+  const fetchDoctors = async (pageNumber) => {
     try {
+      setLoading(false);
+      const limit = 7;
+      const offset = pageNumber * limit;
       const doctorsData = await supabaseRequest({
         table: "doctors",
         method: "GET",
-        limit: 30,
+        limit,
+        offset
       });
+      console.log(doctorsData); 
       setDoctors(doctorsData);
     } catch (error) {
       console.error("Erro ao buscar médicos:", error.message);
@@ -27,6 +38,20 @@ export default function ViewDoctor() {
     fetchDoctors();
   }, []);
 
+  const loadNextPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      fetchDoctors(currentPage + 1);
+    }
+  };
+
+  const loadPreviousPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage - 1);
+      fetchDoctors(currentPage - 1);
+    }
+  };
+
   return (
     <Card>
       <CardBody>
@@ -35,34 +60,51 @@ export default function ViewDoctor() {
             Listar Médicos
           </Typography>
         </div>
-        <div className="divide-y divide-gray-200">
-          {isLoading ? (
-            <Typography>Carregando...</Typography>
-          ) : (
-            doctors.map(({ id, first_name, last_name, specialty, crm }, index) => (
-              <div key={id} className="flex items-center justify-between pb-3 pt-3 last:pb-0">
-                <div className="flex flex-col sm:flex-row items-center gap-x-3">
-                  <Typography color="blue-gray" variant="h6">
-                    {first_name} {last_name}
+        <div className="">
+          <Table>
+            <TableHead>
+                <TableHeader>Nome</TableHeader>
+                <TableHeader>CRM</TableHeader>
+                <TableHeader>Ações</TableHeader>
+            </TableHead>
+            <TableBody>
+           {doctors.map(({ id, first_name, last_name, specialty, crm }, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <Typography color="blue-gray" >
+                      {first_name} {last_name}
+                    </Typography>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Typography color="blue-gray" >
+                    {crm}
                   </Typography>
-                  <Typography color="blue-gray">{specialty}</Typography>
-                  <Typography color="blue-gray">{crm}</Typography>
-                </div>
-                <Typography color="blue-gray" variant="h6">
-                  <div className="flex gap-3">
+                </TableCell>
+                <TableCell>
+                <div className="flex gap-3 justify-center">
                     <Link to={`/admin/detalhesmedico/${id}`}>
-                      <Button>
+                      <Button color="blue" >
                         <EyeIcon className="h-6 w-6 text-white" />
                       </Button>
                     </Link>
-                    <Button>Editar</Button>
                   </div>
-                </Typography>
-              </div>
-            ))
-          )}
+                </TableCell>
+              </TableRow>
+            ))} 
+            </TableBody>
+          </Table>
         </div>
       </CardBody>
+      <div className="mt-3 p-5">
+        <Pagination
+          currentPage={currentPage}
+              totalPages={totalPages}
+              onNextPage={loadNextPage}
+          onPrevPage={loadPreviousPage}
+        />
+      </div>
     </Card>
   );
 }

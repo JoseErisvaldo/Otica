@@ -77,7 +77,7 @@ export default function NewProduct() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="gradient">
+      <Button onClick={handleOpen} variant="gradient" color="white" className="border border-gray-400">
         Cadastrar Produto
       </Button>
       <Dialog size="lg" open={open} handler={handleOpen} className="p-4">

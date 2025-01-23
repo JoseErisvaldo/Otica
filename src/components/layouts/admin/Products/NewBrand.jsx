@@ -43,7 +43,7 @@ export default function NewBrand() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="gradient">
+      <Button onClick={handleOpen} variant="gradient" color="white" className="border border-gray-400">
         Cadastrar Marca
       </Button>
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">

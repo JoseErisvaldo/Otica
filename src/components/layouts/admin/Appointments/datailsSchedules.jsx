@@ -22,7 +22,6 @@ export function DetailsSchedules({ appointment_id }) {
   const [isLoading, setIsLoading] = useState(false);
   const [editingAppointment, setEditingAppointment] = useState(null);
   const [editingStatus, setEditingStatus] = useState(null);
-  console.log(editingStatus)
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleOpen = () => setOpen(!open);

@@ -5,12 +5,15 @@ import { NewSchedule } from "../../../components/layouts/admin/Appointments/newS
 import { Appointments } from "../../../components/layouts/admin/Appointments/appointments";
 import { TableDetailedAppointments } from "../../../components/layouts/admin/Appointments/TableDetailedAppointments";
 import supabaseRequest from "../../../services/api/supabaseRequest";
+import { Pagination } from "../../../components/UI/admin/Pagination";
+
 export default function Home() {
   const [appointmentNextDay, setAppointmentNextDay] = useState([]);
   const [appointmentsToday, setAppointmentsToday] = useState([]);
   const [appointments, setAppointments] = useState([]);
-  console.log(appointments);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState();
 
   async function fetchAppointmentsNextDay() {
     try {
@@ -19,7 +22,6 @@ export default function Home() {
         table: "view_appointments_next_day",
         method: "GET",
       });
-  
       setAppointmentNextDay(response);
     } catch (error) {
       console.error("Erro ao buscar agendas do próximo dia:", error.message);
@@ -27,7 +29,7 @@ export default function Home() {
       setLoading(false);
     }
   }
-  
+
   async function fetchAppointmentsToday() {
     try {
       setLoading(true);
@@ -35,7 +37,6 @@ export default function Home() {
         table: "view_appointments_today",
         method: "GET",
       });
-  
       setAppointmentsToday(response);
     } catch (error) {
       console.error("Erro ao buscar agendas de hoje:", error.message);
@@ -43,29 +44,48 @@ export default function Home() {
       setLoading(false);
     }
   }
-  
-  async function fetchAppointments() {
+
+  async function fetchAppointments(pageNumber) {
     try {
       setLoading(true);
+      const limit = 4;
+      const offset = pageNumber * limit;
+
       const response = await supabaseRequest({
         table: "view_detailed_appointments",
         method: "GET",
+        limit,
+        offset,
       });
-  
-      setAppointments(response);
+      console.log(response);
+      setAppointments(response)
     } catch (error) {
-      console.error("Erro ao buscar todas as agendas:", error.message);
+      console.error("Erro ao buscar agendas:", error.message);
     } finally {
       setLoading(false);
     }
   }
-  
+
+  const loadNextPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      fetchAppointments(currentPage + 1);
+    }
+  };
+
+  const loadPreviousPage = () => {
+    if (!loading) {
+      setCurrentPage((prevPage) => prevPage - 1);
+      fetchAppointments(currentPage - 1);
+    }
+  };
 
   useEffect(() => {
     fetchAppointmentsNextDay();
     fetchAppointmentsToday();
-    fetchAppointments();
+    fetchAppointments(currentPage);
   }, []);
+
 
   return (
     <div className="w-full">
@@ -74,25 +94,31 @@ export default function Home() {
           <ListAppointment />
           <NewSchedule />
         </div>
-        <div className="flex flex-col m-3">
+        <div className="flex flex-col   m-3">
           <h2 className="text-2xl font-bold text-start">Detalhes dos agendamentos</h2>
           <div className="flex flex-wrap">
             <Appointments
               title={"Agendamentos hoje"}
               appointments={appointmentsToday}
-              message={"Olá, estou passando aqui para lembra do seu agendamento de hoje"}
+              message={"Olá, estou passando aqui para lembrar do seu agendamento de hoje."}
             />
             <Appointments
               title={"Agendamentos amanhã"}
               appointments={appointmentNextDay}
-              message={"estou passando aqui para lembra do seu agendamento para amanhã"}
+              message={"Estou passando aqui para lembrar do seu agendamento para amanhã."}
             />
           </div>
-        </div>
-        <div className="sm:flex">
-          <TableDetailedAppointments appointments={appointments} />
+          <div className="sm:flex">
+            <TableDetailedAppointments appointments={appointments} />
+          </div>
         </div>
       </div>
+      <Pagination
+        currentPage={currentPage}
+            totalPages={totalPages}
+            onNextPage={loadNextPage}
+        onPrevPage={loadPreviousPage}
+      />
     </div>
   );
 }

@@ -1,17 +1,26 @@
 import { Avatar, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
+import { Pagination } from "../../../UI/admin/Pagination";
 
 
 export default function ViewStockMovements () { 
     const [stockMovements, setStockMovements] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState();
 
-    const fetchStockMovements = async () => {
+    const fetchStockMovements = async (pageNumber) => {
         try{
+            setLoading(false);
+            const limit = 10
+            const offset = pageNumber * limit;
             const stockMovements = await supabaseRequest({
                 table: "view_stock_movement",
                 method: "GET",
+                limit,
+                offset
             })
             setStockMovements(stockMovements)
         } catch (error) {
@@ -23,6 +32,21 @@ export default function ViewStockMovements () {
     useEffect(() => {
         fetchStockMovements()
     }, [])
+
+    const loadNextPage = () => {
+        console.log("load next page");
+        if (!loading) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          fetchStockMovements(currentPage + 1);
+        }
+      };
+    
+      const loadPreviousPage = () => {
+        if (!loading) {
+          setCurrentPage((prevPage) => prevPage - 1);
+          fetchStockMovements(currentPage - 1);
+        }
+      };
 
     return(
         <Card>
@@ -92,5 +116,13 @@ export default function ViewStockMovements () {
                     ))}
                 </div>
             </CardBody>
+            <div className="mt-3 p-5">
+                <Pagination
+                currentPage={currentPage}
+                    totalPages={totalPages}
+                    onNextPage={loadNextPage}
+                onPrevPage={loadPreviousPage}
+                />
+            </div>
         </Card>
     )}
