@@ -6,8 +6,9 @@ import { Appointments } from "../../../components/layouts/admin/Appointments/app
 import { TableDetailedAppointments } from "../../../components/layouts/admin/Appointments/TableDetailedAppointments";
 import supabaseRequest from "../../../services/api/supabaseRequest";
 import { Pagination } from "../../../components/UI/admin/Pagination";
+import { DrawerRight } from "../../../components/UI/admin/OpenDrawerRight";
 
-export default function Home() {
+export default function ScheduleAppointment() {
   const [appointmentNextDay, setAppointmentNextDay] = useState([]);
   const [appointmentsToday, setAppointmentsToday] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -91,8 +92,14 @@ export default function Home() {
     <div className="w-full">
       <div className="flex flex-col">
         <div className="flex justify-end items-end flex-wrap w-full mr-3 gap-3">
-          <ListAppointment />
-          <NewSchedule />
+          
+          <DrawerRight>
+            <NewSchedule />
+            {/*
+            <ListAppointment />
+            */}
+          </DrawerRight>
+         
         </div>
         <div className="flex flex-col   m-3">
           <h2 className="text-2xl font-bold text-start">Detalhes dos agendamentos</h2>

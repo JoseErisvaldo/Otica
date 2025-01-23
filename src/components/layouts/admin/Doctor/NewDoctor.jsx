@@ -49,7 +49,7 @@ export default function NewDoctor() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="gradient">
+      <Button onClick={handleOpen} variant="gradient" color="white" className="border border-gray-400">
         Cadastrar Médico
       </Button>
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">

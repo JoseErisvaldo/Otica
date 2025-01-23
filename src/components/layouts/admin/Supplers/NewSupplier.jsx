@@ -48,7 +48,7 @@ export default function NewSupplier() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="gradient">
+      <Button onClick={handleOpen} variant="gradient" color="white" className="border border-gray-400">
         Cadastrar Fornecedor
       </Button>
       <Dialog size="sm" open={open} handler={handleOpen} className="p-4">

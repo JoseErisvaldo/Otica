@@ -341,8 +341,8 @@ const handleClientSearch = async () => {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="gradient" className="flex items-center gap-3">
-        <PlusIcon className="w-5" /> Agendar Consulta
+      <Button onClick={handleOpen} variant="gradient" color="white" className="border border-gray-400">
+        Agendar Consulta
       </Button>
       
       <Dialog size="sm" open={open} handler={handleOpen}>

@@ -4,26 +4,22 @@ import NewProduct from "../../../components/layouts/admin/Products/NewProducts";
 import ViewProducts from "../../../components/layouts/admin/Products/ViewProducts";
 import LayoutAdmin from "../../../layouts/Admin";
 import NewProductColor from "../../../components/layouts/admin/Products/NewProductColor";
+import { DrawerRight } from "../../../components/UI/admin/OpenDrawerRight";
 
 
 export default function Products () { 
   return(
     <LayoutAdmin>
-      <div className="flex justify-center sm:justify-end flex-wrap items-end w-full mr-3 gap-3">
-        <div>
+      <div className="flex justify-end flex-wrap items-end w-full gap-3">
+        <DrawerRight > 
           <NewBrand />
-        </div>
-        <div>
           <NewColorType />
-        </div>
-        <div>
           <NewProduct />
-        </div>
-        <div>
           <NewProductColor />
-        </div>
+        </DrawerRight>
+        
       </div>
-      <div>
+      <div className="w-full">
         <ViewProducts />
       </div>
     </LayoutAdmin>

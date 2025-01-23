@@ -5,12 +5,12 @@ import { Avatar } from '@material-tailwind/react';
 
 const navListItems = [
   { label: "Dashboard", icon: HomeIcon, link: "/admin/dashboard" },
-  { label: "Home", icon: HomeIcon, link: "/admin/home" },
+  { label: "Agendar consulta", icon: HomeIcon, link: "/admin/scheduleappointment" },
   { label: "Clientes", icon: UserCircleIcon, link: "/admin/clientes" },
   { label: "Médico", icon: UserCircleIcon, link: "/admin/medico" },
   { label: "Fornecedores", icon: UserCircleIcon, link: "/admin/suppliers" },
   { label: "Produtos", icon: UserCircleIcon, link: "/admin/products" },
-  { label: "Agendamentos", icon: UserCircleIcon, link: "/admin/appointmentsProducts" },
+  { label: "Agendar produtos", icon: UserCircleIcon, link: "/admin/appointmentsProducts" },
   { label: "Movimentos do estoque", icon: UserCircleIcon, link: "/admin/stockmovements" },
   { label: "Estoque", icon: UserCircleIcon, link: "/admin/stockproducts" },
 ];
@@ -43,7 +43,7 @@ const Sidebar = () => {
     <>
       {isMobile && (
         <button
-          className="fixed top-4 left-4 z-20 p-2 bg-gray-800 text-white rounded-md"
+          className="fixed top-4 left-4 z-20 p-2 bg-white text-black shadow-md border border-gray-300 rounded-md"
           onClick={toggleSidebar}
         >
           {isOpen ? <span><XCircleIcon className="h-10 w-10" />

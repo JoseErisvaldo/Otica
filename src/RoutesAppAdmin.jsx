@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Admin/Home";
-import CategoryOfCuts from "./pages/Admin/Products";
+import ScheduleAppointment from "./pages/Admin/ScheduleAppointment";
 import Clients from "./pages/Admin/Clients";
 import DetailsClient from "./pages/Admin/DetailsClient";
 import Doctor from "./pages/Admin/Doctor";
@@ -21,16 +20,17 @@ import Sidebar from "./components/layouts/admin/Sidebar";
 import Dashboard from "./pages/Admin/Dashboard";
 import LayoutAdmin from "./layouts/Admin";
 
+
 export default function RoutesAppAdmin() {
   return (
     <BrowserRouter>
-    <Sidebar/>
+      <Sidebar/>
     <div className="flex  p-4 md:ml-64">
     <LayoutAdmin >
       
       <Routes>
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/home" element={<Home />} />
+        <Route path="/admin/scheduleappointment" element={<ScheduleAppointment />} />
         <Route path="/admin/clientes" element={<Clients />} />
         <Route path="/admin/detalhescliente/:id" element={<DetailsClient />} />
         <Route path="/admin/medico" element={<Doctor />} />
