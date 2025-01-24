@@ -4,28 +4,31 @@ import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import supabaseRequest from "../../../../services/api/supabaseRequest";
 import { Pagination } from "../../../UI/admin/Pagination";
+import Table, { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../UI/admin/Table";
+
+const ITEMS_PER_PAGE = 4; // Centraliza o limite para fácil manutenção
 
 export default function ViewAppointmentsProducts() {
   const [appointmentsProducts, setAppointmentsProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState();
+  const [totalPages, setTotalPages] = useState(); 
 
   const fetchAppointmentsProducts = async (pageNumber) => {
     try {
       setLoading(false);
-      const limit = 4
+      const limit = 7;
       const offset = pageNumber * limit;
-      const data = await supabaseRequest({
-        
+      const response = await supabaseRequest({
         table: "view_appointment_products",
         method: "GET",
         limit,
-        offset
+        offset,
       });
-      setAppointmentsProducts(data);
-    } catch (error) {
+
+      setAppointmentsProducts(response);
+       } catch (error) {
       console.error("Erro ao buscar agendamentos de produtos:", error.message);
     } finally {
       setIsLoading(false);
@@ -34,7 +37,7 @@ export default function ViewAppointmentsProducts() {
 
   useEffect(() => {
     fetchAppointmentsProducts(currentPage);
-  }, []);
+  }, []); 
 
   const loadNextPage = () => {
     console.log("load next page");
@@ -51,6 +54,7 @@ export default function ViewAppointmentsProducts() {
     }
   };
 
+
   return (
     <Card>
       <CardBody>
@@ -63,33 +67,32 @@ export default function ViewAppointmentsProducts() {
           {isLoading ? (
             <Typography>Carregando...</Typography>
           ) : (
-            appointmentsProducts.map(
-              ({
-                appointment_product_id, 
-                appointment_product_created_at,
-                suppliers,
-                status_name
-              }) => (
-                <div
-                  key={appointment_product_id}
-                  className=" flex flex-col justify-center items-center gap-3 sm:grid sm:grid-cols-2  pb-3 pt-3 last:pb-0"
-                >
-                  <div className=" flex flex-col sm:flex-row items-center gap-x-3">
-                    <Typography color="blue-gray">
-                      <span className="font-semibold">Data:</span> {new Date(appointment_product_created_at).toLocaleDateString("pt-BR")}
-                    </Typography>
-                    <Typography color="blue-gray">
-                      <span className="font-semibold">Agedamento:</span> {appointment_product_id}
-                    </Typography>
-                    <Typography color="blue-gray">
-                      <span className="font-semibold">Fornecedor:</span> {suppliers}
-                    </Typography>
-                    <Typography color="blue-gray" className="flex items-center gap-2">
-                      <span className="font-semibold">Status:</span> <div className={` ${status_name === "Aberto" ? "text-green-500" : "text-red-500"}` }  >{status_name}</div> 
-                    </Typography>
-                  </div>  
-                  <div className="flex justify-end gap-3">
-                    {status_name === "Aberto" && (
+            <Table>
+              <TableHead>
+
+                  <TableHeader>Data</TableHeader>
+                  <TableHeader>Suplidor</TableHeader>
+                  <TableHeader>Status</TableHeader>
+                  <TableHeader className="text-right">Ações</TableHeader>
+
+              </TableHead>
+              <TableBody>
+                {appointmentsProducts.map(
+                  ({
+                    appointment_product_id,
+                    appointment_product_created_at,
+                    suppliers,
+                    status_name,
+                  }) => (
+                    <TableRow key={appointment_product_id}>
+                      <TableCell>
+                        {appointment_product_created_at}
+                      </TableCell>
+                      <TableCell>{suppliers}</TableCell>
+                      <TableCell>{status_name}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                        {status_name === "Aberto" && (
                       <Link to={`/admin/detailsappointmentsproducts/${appointment_product_id}`}>
                         <Button color="green">
                           <PencilSquareIcon class="h-6 w-6 text-white" />
@@ -98,21 +101,24 @@ export default function ViewAppointmentsProducts() {
                     )}
                     <Link to={`/admin/viewpppointmentproducts/${appointment_product_id}`}>
                       <Button color="blue">
-                        <EyeIcon className="h-6 w-6 text-white" />
+                          <EyeIcon className="h-6 w-6 text-white" />
                       </Button>
                     </Link>
-                  </div>
-                </div>
-              )
-            )
+                        </div>
+                    </TableCell>
+                    </TableRow>
+                    )
+                  )}
+                </TableBody>
+              </Table>
           )}
         </div>
       </CardBody>
       <div className="mt-3 p-5">
         <Pagination
           currentPage={currentPage}
-              totalPages={totalPages}
-              onNextPage={loadNextPage}
+          totalPages={totalPages}
+          onNextPage={loadNextPage}
           onPrevPage={loadPreviousPage}
         />
       </div>
