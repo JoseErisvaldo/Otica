@@ -94,7 +94,7 @@ export function ListAppointment() {
                           {appointment.client_name}
                         </Typography>
                         <Typography variant="small" color="gray">
-                          Criado em: {new Date(appointment.appointment_created_at).toLocaleDateString('pt-BR')} às {new Date(appointment.appointment_created_at).toLocaleTimeString('pt-BR')}
+                          Criado em: {appointment.appointment_created_at} às {appointment.appointment_created_at}
                         </Typography>
                         <Typography variant="small" color="gray" className="flex">
                           {appointment.client_whatsapp} - <WhatsAppButton phoneNumber={appointment.client_whatsapp} />

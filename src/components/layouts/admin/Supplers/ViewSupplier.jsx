@@ -82,7 +82,7 @@ export default function ViewSupplier() {
                   <TableCell>{cd}</TableCell>
                   <TableCell className="text-right justify-end">
                     <span>
-                      <Link to={`/admin/detalhescliente/${id}`}>
+                      <Link to={`/admin/detailsSupplier/${id}`}>
                         <Button variant="icon" color="transparent" color="blue">
                           <EyeIcon className="h-5 w-5 text-white" />
                         </Button>

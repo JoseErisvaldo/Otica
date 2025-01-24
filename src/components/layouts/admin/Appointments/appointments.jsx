@@ -47,7 +47,7 @@ export function Appointments({ appointments = [], title,message }) {
           {appointments.length > 0 ? (
             appointments.map((appointment) => (
               <div key={appointment.appointment_id} className="mb-4 flex flex-col gap-3">
-                <p><strong>Data Criado:</strong> {new Date(appointment.appointment_created_at).toLocaleString()}</p>
+                <p><strong>Data Criado:</strong> {appointment.appointment_created_at}</p>
                 <p><strong>Data do Agendamento:</strong> {appointment.appointment_date}</p>
                 <p><strong>Hora do Agendamento:</strong> {appointment.appointment_time}</p>
                 <p><strong>Nome do Cliente:</strong> {appointment.client_name}</p>

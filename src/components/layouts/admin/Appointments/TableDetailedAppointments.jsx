@@ -31,7 +31,7 @@ export function TableDetailedAppointments({ appointments = [], title, message })
               <TableBody>
                 {appointments.map((appointment) => (
                   <TableRow key={appointment.appointment_id}>
-                    <TableCell>{new Date(appointment.appointment_created_at).toLocaleString()}</TableCell>
+                    <TableCell>{appointment.appointment_created_at}</TableCell>
                     <TableCell>{appointment.appointment_date}</TableCell>
                     <TableCell>{appointment.appointment_time}</TableCell>
                     <TableCell>{appointment.client_name}</TableCell>
